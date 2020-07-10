@@ -1,0 +1,33 @@
+@* Razor Views combine c# with HTML and they are very powerful and Developer friendly. *@
+@*we need to tell our View what's the data type it is receiving*@
+@model List<Movie>
+
+@{
+    ViewBag.Title = "Movies Page";
+    Layout = "_Layout";
+}
+
+<h2>List of Top Movies @ViewBag.MoviesCount</h2>
+
+@* c# code leading sign `@`  *@
+
+@* 1. Place model on top of the views with the expecting data type *@
+@* 2. Access the actual data using Model (ASP.NET) alias for @model *@
+<table class="table">
+    <thead>
+    <td> ID </td>
+    <td> Title </td>
+    <td> Budget </td>
+    </thead>
+    
+    <tbody>
+    @foreach (var movie in Model)
+    {
+        <tr>
+            <td>@movie.Id</td>
+            <td>@movie.Title</td>
+            <td>@movie.Budget</td>
+        </tr>
+    }
+    </tbody>
+</table>
