@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MovieStore.Infrastructure.Data;
 
 namespace MovieStore.MVC
 {
@@ -24,6 +27,9 @@ namespace MovieStore.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // tell the container we are using EF
+            // var conn = Configuration.GetSection("ConnectionStrings")["MovieStoreDbConnection"];
+            services.AddDbContext<MoviesStoreDbContext>(options => options.UseSqlServer(connectionString:Configuration.GetConnectionString("MovieStoreDbConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,10 +55,16 @@ namespace MovieStore.MVC
 
             app.UseEndpoints(endpoints =>
             {
-                // Routing -- Pattern matching technique
+                /*
+                 * Routing -- Pattern matching technique -- maps your URL to Controller and Action
+                 *   1. Convention-based Routing
+                 *   2. Attribute Routing
+                 */
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Controller}/{action=Index}/{id?}");
+                    // controller means the URL maps to which Controller and similarly action means the URL maps to which method.
+                    // By default, the controller is Home and the action is Index
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

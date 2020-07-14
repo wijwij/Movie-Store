@@ -14,6 +14,8 @@ namespace MovieStore.MVC.Controllers
     // http://localhost:2323/Home/index, HomeController, Index--action method
     public class HomeController : Controller
     {
+        [Route("[action]")]
+        [Route("hello")]
         public IActionResult Index()
         {
             // return an instance of a class that implements that interface
