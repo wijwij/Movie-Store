@@ -46,9 +46,13 @@ namespace MovieStore.MVC.Controllers
             // we need to get the data from view
             Console.WriteLine($"Receiving title: {title}");
             Console.WriteLine($"Budget is: {budget}");
-            // Model binding (microsoft build for us): case in-sensitive
-            // map the in-coming requests input elements key/value with the parameters of the action method. 
-            // it will also perform casting and converting
+            /*
+             * ToDo [review]
+             * Model Binding (microsoft build for us): case in-sensitive
+             * map the in-coming requests input elements key/value with the parameters of the action method.
+             * it will also perform casting and converting
+             */
+            
             // save to database
             return View("Create");
         }
