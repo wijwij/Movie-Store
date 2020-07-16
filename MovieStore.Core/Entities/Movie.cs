@@ -32,7 +32,5 @@ namespace MovieStore.Core.Entities
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
         public ICollection<Purchase> Purchases { get; set; }
-        
-        // ToDo [question - why don't we have a collection of favorites.
     }
 }
