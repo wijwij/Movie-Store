@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace MovieStore.Core.RepositoryInterfaces
 {
@@ -13,16 +14,22 @@ namespace MovieStore.Core.RepositoryInterfaces
          *   out-memory data resource (IQueryable) are passing Expression<Func<T, bool>>
          * Why?
          *   Because LINQ needs to convert it to sql expressions later
-         * ToDo [Follow-up Question: What's the translation process under the hood.]
+         * ToDo [Follow-up Question: What's the translation process under the hood? How to check the converted SQL statements?]
+         *
+         * EF provides normal sync method and async method
+         * .NET 4.5, c# 5
+         *
+         * async-await methods largely increase the performance for I/O intensive application
+         * Naming convention of async method: ---Async
          */
         
-        T GetById(int id);
-        IEnumerable<T> ListAll();
-        IEnumerable<T> ListWhere(Expression<Func<T, bool>> where);
-        int GetCount(Expression<Func<T, bool>> filter = null);
-        bool GetExists(Expression<Func<T, bool>> filter = null);
-        T Add(T entity);
-        T Update(T entity);
-        void Delete(T entity);
+        Task<T> GetByIdAsync(int id);
+        Task<IEnumerable<T>> ListAllAsync();
+        Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter);
+        Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null);
+        Task<bool> GetExistsAsync(Expression<Func<T, bool>> filter = null);
+        Task<T> AddAsync(T entity);
+        Task<T> UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
     }
 }

@@ -1,9 +1,11 @@
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Core.Entities;
 
 namespace MovieStore.Infrastructure.Data
 {
     /*
+     * Code-first Approach Step
      * 1. Install all the EF Core libraries using NuGet
      * 2. Create class inherits from `DbContext` class, which represents your database.
      * 3. Create database connection string inside `appsettings.json` file
@@ -18,7 +20,8 @@ namespace MovieStore.Infrastructure.Data
      *     why you need startup project? The tools have to execute the code to get info about the project, like database connection string.
      * 10. Then verifying it using update-database command. `dotnet ef database update --startup-project <dir>`
      *
-     * IN EF we have 2 ways to create our entities and model our database using Code-First approach
+     * ToDo [review - 7/14/2020]
+     * IN EF Core we have 2 ways to create our entities and model our database using Code-First approach
      *   1. Data Annotations which is nothing but bunch of C# attributes that we can use
      *   2. Fluent API is more syntax and more powerful and usually uses lambdas
      * Combine both DataAnnotations and Fluent API
@@ -29,7 +32,10 @@ namespace MovieStore.Infrastructure.Data
         {
             
         }
-        // multiple dbset as properties. Each DbSet => Table
+        /*
+         * DbSet<TEntity> can be used to query and save instances of TEntity
+         * multiple DbSet<TEntity> as properties. Each DbSet => Table
+         */
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Trailer> Trailers { get; set; }

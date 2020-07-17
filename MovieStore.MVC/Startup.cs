@@ -10,7 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MovieStore.Core.RepositoryInterfaces;
+using MovieStore.Core.ServiceInterfaces;
 using MovieStore.Infrastructure.Data;
+using MovieStore.Infrastructure.Repositories;
+using MovieStore.Infrastructure.Services;
 
 namespace MovieStore.MVC
 {
@@ -26,10 +30,15 @@ namespace MovieStore.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add services for controllers. This method will not register services for pages.
             services.AddControllersWithViews();
-            // tell the container we are using EF
+            // Register DB context as a service.
             // var conn = Configuration.GetSection("ConnectionStrings")["MovieStoreDbConnection"];
             services.AddDbContext<MoviesStoreDbContext>(options => options.UseSqlServer(connectionString:Configuration.GetConnectionString("MovieStoreDbConnection")));
+
+            // DI in ASP.NET Core has 3 types of lifetimes, scoped, singleton, transient.
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IMovieService, MovieService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
