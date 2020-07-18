@@ -18,34 +18,35 @@ namespace MovieStore.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        // ToDo [Question - Why use virtual keyword?]
         public virtual async Task<T> GetByIdAsync(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> ListAllAsync()
+        public virtual async Task<IEnumerable<T>> ListAllAsync()
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter)
+        public virtual async Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter)
         {
             return await _dbContext.Set<T>().Where(filter).ToListAsync();
         }
 
-        public async Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null)
+        public virtual async Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null)
         {
             return filter != null
                 ? await _dbContext.Set<T>().Where(filter).CountAsync()
                 : await _dbContext.Set<T>().CountAsync();
         }
 
-        public async Task<bool> GetExistsAsync(Expression<Func<T, bool>> filter = null)
+        public virtual async Task<bool> GetExistsAsync(Expression<Func<T, bool>> filter = null)
         {
             return filter != null && await _dbContext.Set<T>().Where(filter).AnyAsync();
         }
 
-        public async Task<T> AddAsync(T entity)
+        public virtual async Task<T> AddAsync(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
             // save to the database
@@ -53,14 +54,14 @@ namespace MovieStore.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<T> UpdateAsync(T entity)
+        public virtual async Task<T> UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return entity;
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual async Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
