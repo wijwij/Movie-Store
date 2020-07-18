@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc; // where Controller class gets defined
 using Microsoft.Extensions.Logging;
+using MovieStore.Core.ServiceInterfaces;
 using MovieStore.MVC.Models;
 
 namespace MovieStore.MVC.Controllers
@@ -14,13 +15,17 @@ namespace MovieStore.MVC.Controllers
     // http://localhost:2323/Home/index, HomeController, Index--action method
     public class HomeController : Controller
     {
-        [Route("[action]")]
-        [Route("hello")]
-        public IActionResult Index()
+        private readonly IMovieService _movieService;
+
+        public HomeController(IMovieService movieService)
         {
-            // return an instance of a class that implements that interface
+            _movieService = movieService;
+        }
+        public async Task<IActionResult> Index()
+        {
             // By default it will into Views folder --> Home --> Index.cshtml
             /*
+             * [ToDo] [refactor notes]
              * 1. Program.cs --> main method
              * 2. build() method in main --> ConfigureServices() in Startup class
              * 3. runt() method in main --> Configure() in Startup class
@@ -30,8 +35,16 @@ namespace MovieStore.MVC.Controllers
              *
              * In ASP.NET core middleware... a piece of software logic that will be executed...
              */
-            
-            return View();
+            var movies = await _movieService.GetTop25RatedMovies();
+            /*
+             * Movie Card
+             *  - Home page -- show top revenue movies -- movie card
+             *  - Genres/show movies belong to that genre -- movie card
+             *  - Top rated Movie -- movie card
+             *
+             * Partial view (view inside parent view) allows to reuse view. 
+             */
+            return View(movies);
         }
 
         public IActionResult Privacy()
