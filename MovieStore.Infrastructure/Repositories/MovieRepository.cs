@@ -25,12 +25,11 @@ namespace MovieStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Movie>> GetHighestRatedMovies()
         {
-            // ToDo [Test - too complex LINQ query]
-            var topMovies = _dbContext.Reviews.GroupBy(r => r.MovieId)
-                .Select(g => new {MovieId = g.Key, Rating = g.Average(r => r.Rating)}).OrderByDescending(r => r.Rating)
-                .Take(25);
-            var collections = await topMovies.Join(_dbContext.Movies, tm => tm.MovieId, m => m.Id, (tm, m) => new {Rating = tm.Rating, Movie = m})
-                .OrderByDescending(t => t.Rating).Select(t => t.Movie).ToListAsync();
+            var collections = await _dbContext.Movies.Include(m => m.Reviews).OrderByDescending(m => m.Reviews.Average(r => r.Rating))
+                .Take(25).ToListAsync();
+            // var alternative = await _dbContext.Reviews.Include(r => r.Movie).GroupBy(r => r.MovieId)
+            //     .Select(g => new {MovieId = g.Key, Rating = g.Average(r => r.Rating)}).Take(25)
+            //     .Join(_dbContext.Movies, t => t.MovieId, m => m.Id, (t, m) => m).ToListAsync();
             return collections;
         }
 
