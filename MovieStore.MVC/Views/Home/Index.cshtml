@@ -1,7 +1,17 @@
-﻿@{
+﻿@model IEnumerable<MovieStore.Core.Entities.Movie>
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">A Sample of ASP.NET Core Web App</h1>
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var movie in Model)
+            {
+@*                 <partial name="_MovieCard" model="movie"/> *@
+                 @await Html.PartialAsync("_MovieCard", movie)
+            }
+        </div>
+    </div>
 </div>

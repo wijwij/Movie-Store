@@ -23,7 +23,6 @@ namespace MovieStore.MVC.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            // By default it will into Views folder --> Home --> Index.cshtml
             /*
              * [ToDo] [refactor notes]
              * 1. Program.cs --> main method
@@ -35,7 +34,7 @@ namespace MovieStore.MVC.Controllers
              *
              * In ASP.NET core middleware... a piece of software logic that will be executed...
              */
-            var movies = await _movieService.GetTop25RatedMovies();
+            var movies = await _movieService.GetHighestGrossingMovies();
             /*
              * Movie Card
              *  - Home page -- show top revenue movies -- movie card

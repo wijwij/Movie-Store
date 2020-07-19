@@ -18,7 +18,7 @@ namespace MovieStore.Infrastructure.Services
             _movieRepository = movieRepository;
         }
 
-        public async Task<IEnumerable<Movie>> GetTop25HighestRevenueMovies()
+        public async Task<IEnumerable<Movie>> GetHighestGrossingMovies()
         {
             return await _movieRepository.GetHighestRevenueMovies();
         }

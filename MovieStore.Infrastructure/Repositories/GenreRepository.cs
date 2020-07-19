@@ -19,7 +19,7 @@ namespace MovieStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Genre>> GetAllGenreAsync()
         {
-            // ToDo [why use set instead of select(g => g)]
+            // ToDo [question - why use set instead of select(g => g)]
             // return await _dbContext.Genres.Select(g => g).ToListAsync();
             return await _dbContext.Set<Genre>().ToListAsync();
         }
