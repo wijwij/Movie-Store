@@ -1,0 +1,17 @@
+@model IEnumerable<MovieStore.Core.Entities.Movie>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var m in Model)
+            {
+                @await Html.PartialAsync("_MovieCard", m)
+            }
+        </div>
+    </div>
+</div>
+
