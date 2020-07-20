@@ -1,0 +1,61 @@
+@model MovieStore.Core.Entities.Movie
+
+@{
+    ViewBag.Title = "Movie Details";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="d-flex">
+        <div class="col-3">
+            <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title">
+        </div>
+        <div class="col-8">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model.Title</li>
+                <li class="list-group-item">@Model.Tagline</li>
+                <li class="list-group-item">@Model.Rating</li>
+                <li class="list-group-item">@Model.Overview</li>
+            </ul>
+        </div>
+    </div>
+    <div class="d-inline-flex">
+        <div class="row">
+            <h4>MOVIE FACTS</h4>
+        </div>
+        <div class="row">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Release Date: @Model.ReleaseDate</li>
+                <li class="list-group-item">Runtime: @Model.RunTime</li>
+                <li class="list-group-item">Box Office: @Model.Price</li>
+                <li class="list-group-item">Budget: @Model.Revenue</li>
+            </ul>
+        </div>
+    </div>
+    <div class="d-inline-flex">
+        <div class="row">
+            <h4>CAST</h4>
+        </div>
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Profile</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Character</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var mc in Model.MovieCasts)
+                {
+                    <tr>
+                        <td><img src="@mc.Cast.ProfilePath" class="img-fluid" alt="@mc.Cast.Name"/></td>
+                        <td>@mc.Cast.Name</td>
+                        <td>@mc.Character</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

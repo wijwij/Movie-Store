@@ -18,6 +18,13 @@ namespace MovieStore.MVC.Controllers
             _movieService = movieService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var movie = await _movieService.GetMovieById(id);
+            return View(movie);
+        }
+
         /*
          * ToDo [review]
          * three ways to send data from model to view
