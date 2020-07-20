@@ -11,11 +11,13 @@ namespace MovieStore.MVC.Controllers
     public class MoviesController : Controller
     {
         private readonly IMovieService _movieService;
+        private readonly IMovieGenreService _movieGenreService;
 
         // IOC, ASP.NET Core has built-in IOC/DI (.NET framework needs a third party IOC, eg. Autofac, Ninject)
-        public MoviesController(IMovieService movieService)
+        public MoviesController(IMovieService movieService, IMovieGenreService movieGenreService)
         {
             _movieService = movieService;
+            _movieGenreService = movieGenreService;
         }
 
         [HttpGet]
@@ -23,6 +25,13 @@ namespace MovieStore.MVC.Controllers
         {
             var movie = await _movieService.GetMovieById(id);
             return View(movie);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Genres(int id)
+        {
+            var movies = await _movieGenreService.GetMoviesByGenre(id);
+            return View(movies);
         }
 
         /*

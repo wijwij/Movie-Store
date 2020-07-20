@@ -39,9 +39,12 @@ namespace MovieStore.MVC
             // DI in ASP.NET Core has 3 types of lifetimes, scoped, singleton, transient.
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
-            // ToDo [added task on todoist]
+            
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IGenreService, GenreService>();
+
+            services.AddScoped<IMovieGenreRepository, MovieGenreRepository>();
+            services.AddScoped<IMovieGenreService, MovieGenreService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

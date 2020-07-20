@@ -2,5 +2,5 @@
 
 @foreach (var genre in Model)
 {
-    <a class="dropdown-item"> @genre.Name </a>
+    <a class="dropdown-item" asp-controller="Movies" asp-action="Genres" asp-route-id="@genre.Id"> @genre.Name </a>
 }
