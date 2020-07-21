@@ -30,7 +30,7 @@ namespace MovieStore.Infrastructure.Services
              * 5. Store to database
              * 6. Generate response
              */
-            var dbUser = await _userRepository.GetUserByEmail(requestModel.Email);
+            var dbUser = await _userRepository.GetUserByEmailAsync(requestModel.Email);
             if (dbUser != null)
             {
                 // ToDo [refactor ]
@@ -59,7 +59,7 @@ namespace MovieStore.Infrastructure.Services
 
         public async Task<LoginResponseModel> ValidateUser(string email, string password)
         {
-            var user = await _userRepository.GetUserByEmail(email);
+            var user = await _userRepository.GetUserByEmailAsync(email);
             if (user == null)
             {
                 // throw exception if user doesn't exist

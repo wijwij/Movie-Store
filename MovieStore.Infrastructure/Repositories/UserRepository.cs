@@ -12,7 +12,7 @@ namespace MovieStore.Infrastructure.Repositories
         {
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
             return user;

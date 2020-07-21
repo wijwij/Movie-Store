@@ -5,6 +5,6 @@ namespace MovieStore.Core.RepositoryInterfaces
 {
     public interface IUserRepository : IAsyncRepository<User>
     {
-        Task<User> GetUserByEmail(string email);
+        Task<User> GetUserByEmailAsync(string email);
     }
 }
