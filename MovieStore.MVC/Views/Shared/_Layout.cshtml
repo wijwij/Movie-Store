@@ -6,11 +6,12 @@
     <title>@ViewData["Title"] - WebApplication</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css"/>
+    <script src="https://kit.fontawesome.com/4998fcb39c.js"></script>
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
+        <div class="container-fluid col-10 align-content-center">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -27,25 +28,20 @@
                             @await Component.InvokeAsync("Genres")
                         </div>
                     </li>
-                    <li>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                    </li>
-                    <li>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
-                    </li>
+                    @await Html.PartialAsync("_LoginResult")
                 </ul>
             </div>
         </div>
     </nav>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
+<div class="container-fluid col-10 align-content-center">
+    <main role="main" class="container-fluid">
         @RenderBody()
     </main>
 </div>
 
 <footer class="border-top footer text-muted">
-    <div class="container">
+    <div class="container-fluid col-10 align-content-center">
         &copy; 2020 - WebApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
 </footer>
