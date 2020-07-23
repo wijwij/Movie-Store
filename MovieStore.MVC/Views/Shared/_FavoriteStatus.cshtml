@@ -5,7 +5,7 @@
     var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
     var isFavorited = Model.Favorites.FirstOrDefault(f => f.UserId == userId && f.MovieId == Model.Id) != null;
 }
-
+<div class="row">
 @if (User.Identity.IsAuthenticated && isFavorited)
 {
     <form asp-controller="User" asp-action="Unfavorite" method="post">
@@ -20,3 +20,4 @@ else
         <button type="submit" class="btn btn-outline-light mb-3"><a><i class="far fa-heart"></i></a></button>
     </form>
 }
+</div>

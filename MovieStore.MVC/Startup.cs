@@ -55,6 +55,9 @@ namespace MovieStore.MVC
 
             services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IReviewService, ReviewService>();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {

@@ -16,10 +16,12 @@ namespace MovieStore.MVC.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IReviewService _reviewService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IReviewService reviewService)
         {
             _userService = userService;
+            _reviewService = reviewService;
         }
 
         public IActionResult Index()
@@ -62,6 +64,14 @@ namespace MovieStore.MVC.Controllers
                 HttpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
                 throw;
             }
+        }
+
+        [HttpPost]
+        public async Task AddReview(ReviewRequestModel requestModel)
+        {
+            var userId = Convert.ToInt32(HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            await _reviewService.WriteReview(requestModel, userId);
         }
 
         /*
