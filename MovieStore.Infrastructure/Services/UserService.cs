@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.Design;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using MovieStore.Core.Entities;
@@ -14,11 +15,13 @@ namespace MovieStore.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
+        private readonly IFavoriteRepository _favoriteRepository;
 
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService)
+        public UserService(IUserRepository userRepository, ICryptoService cryptoService, IFavoriteRepository favoriteRepository)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
+            _favoriteRepository = favoriteRepository;
         }
         public async Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel requestModel)
         {
@@ -82,6 +85,19 @@ namespace MovieStore.Infrastructure.Services
             }
 
             return null;
+        }
+
+        public async Task FavoriteMovie(int movieId, int userId)
+        {
+            var favorite = new Favorite{MovieId = movieId, UserId = userId};
+            await _favoriteRepository.AddAsync(favorite);
+        }
+
+        public async Task UnfavoriteMovie(int movieId, int userId)
+        {
+            var collection = await _favoriteRepository.ListAsync(f => f.MovieId == movieId && f.UserId == userId);
+            var favorite = collection.FirstOrDefault();
+            if(favorite != null) await _favoriteRepository.DeleteAsync(favorite);
         }
     }
 }

@@ -1,0 +1,22 @@
+@using System.Security.Claims
+@model MovieStore.Core.Entities.Movie
+
+@{
+    var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+    var isFavorited = Model.Favorites.FirstOrDefault(f => f.UserId == userId && f.MovieId == Model.Id) != null;
+}
+
+@if (User.Identity.IsAuthenticated && isFavorited)
+{
+    <form asp-controller="User" asp-action="Unfavorite" method="post">
+        <input type="hidden" value="@Model.Id" name="MovieId"/>
+        <button type="submit" class="btn btn-sm btn-outline-light mb-5"><a><i class="fas fa-heart"></i></a></button>
+    </form>
+}
+else
+{
+    <form asp-controller="User" asp-action="Favorite" method="post">
+        <input type="hidden" value="@Model.Id" name="MovieId"/>
+        <button type="submit" class="btn btn-sm btn-outline-light mb-5"><a><i class="far fa-heart"></i></a></button>
+    </form>
+}

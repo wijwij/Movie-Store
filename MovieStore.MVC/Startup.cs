@@ -16,6 +16,7 @@ using MovieStore.Core.ServiceInterfaces;
 using MovieStore.Infrastructure.Data;
 using MovieStore.Infrastructure.Repositories;
 using MovieStore.Infrastructure.Services;
+using MovieStore.MVC.Helpers;
 
 namespace MovieStore.MVC
 {
@@ -52,6 +53,8 @@ namespace MovieStore.MVC
 
             services.AddScoped<ICryptoService, CryptoService>();
 
+            services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -66,7 +69,8 @@ namespace MovieStore.MVC
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage();
+                app.UserMovieStoreExceptionMiddleware();
             }
             else
             {

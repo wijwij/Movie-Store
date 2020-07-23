@@ -21,7 +21,8 @@ namespace MovieStore.Infrastructure.Repositories
         {
             var movie = await _dbContext.Movies.Where(m => m.Id == id).Include(m => m.MovieGenres)
                 .Include(m => m.MovieCasts).ThenInclude(mc => mc.Cast)
-                .Include(m => m.Reviews).FirstOrDefaultAsync();
+                .Include(m => m.Reviews).Include(m => m.Purchases)
+                .Include(m => m.Favorites).FirstOrDefaultAsync();
             // populate the rating field.
             movie.Rating = movie.Reviews.Average(r => r.Rating);
             return movie;
