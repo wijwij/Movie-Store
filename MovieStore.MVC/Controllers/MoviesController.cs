@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieStore.Core.Entities;
 using MovieStore.Core.ServiceInterfaces;
+using MovieStore.MVC.Filters;
 using MovieStore.MVC.Models;
 
 namespace MovieStore.MVC.Controllers
@@ -20,6 +21,7 @@ namespace MovieStore.MVC.Controllers
             _movieGenreService = movieGenreService;
         }
 
+        [MovieStoreFilter]
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
