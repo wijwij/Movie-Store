@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieStore.Core.Entities;
 using MovieStore.Core.Models.Request;
@@ -47,6 +49,23 @@ namespace MovieStore.MVC.Controllers
                 return Redirect($"~/Movies/Details/{requestModel.MovieId}");
             }
             return RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet("/User/{id?}/Movie/{movieId?}/favorite")]
+        public async Task IsFavorite(int id, int movieId)
+        {
+            try
+            {
+                var isFavorite = await _userService.IsFavorite(id, movieId);
+                // write to the response
+                HttpContext.Response.StatusCode = (int) HttpStatusCode.OK;
+                await HttpContext.Response.WriteAsync($"{isFavorite}");
+            }
+            catch (Exception e)
+            {
+                HttpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                throw;
+            }
         }
     }
 }

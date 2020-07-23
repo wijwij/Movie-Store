@@ -99,5 +99,11 @@ namespace MovieStore.Infrastructure.Services
             var favorite = collection.FirstOrDefault();
             if(favorite != null) await _favoriteRepository.DeleteAsync(favorite);
         }
+
+        public async Task<bool> IsFavorite(int userId, int movieId)
+        {
+            var isFavorite = await _favoriteRepository.GetExistsAsync(f => f.MovieId == movieId && f.UserId == userId);
+            return isFavorite;
+        }
     }
 }
