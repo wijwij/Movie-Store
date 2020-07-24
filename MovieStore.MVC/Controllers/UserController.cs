@@ -67,7 +67,7 @@ namespace MovieStore.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task AddReview(ReviewRequestModel requestModel)
+        public async Task Review(ReviewRequestModel requestModel)
         {
             var userId = Convert.ToInt32(HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
@@ -82,5 +82,14 @@ namespace MovieStore.MVC.Controllers
          * 4. exception filter(only catch in the controller), but in real world, we use exception middleware.
          * 5. resource filter
          */
+
+        [HttpGet]
+        public async Task<IActionResult> Reviews()
+        {
+            var userId = Convert.ToInt32(HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var reviews = await _reviewService.GetReviews(userId);
+            return View(reviews);
+        }
     }
 }

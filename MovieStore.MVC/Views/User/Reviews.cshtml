@@ -1,0 +1,26 @@
+@model IEnumerable<MovieStore.Core.Entities.Review>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Review Text</th>
+      <th>Rating</th>
+      <th>Movie Name</th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach (var r in Model)
+  {
+    <tr>
+      <td>@r.ReviewText</td>
+      <td>@r.Rating</td>
+      <td><a asp-controller="Movies" asp-action="Details" asp-route-id="@r.MovieId"> @r.Movie.Title </a></td>
+    </tr>
+  }
+  </tbody>
+</table>

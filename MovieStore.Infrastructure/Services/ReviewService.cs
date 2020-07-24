@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MovieStore.Core.Entities;
 using MovieStore.Core.Models.Request;
@@ -22,6 +23,12 @@ namespace MovieStore.Infrastructure.Services
                 ReviewText = requestModel.ReviewText
             };
             await _reviewRepository.AddAsync(review);
+        }
+
+        public async Task<IEnumerable<Review>> GetReviews(int userId)
+        {
+            var reviews = await _reviewRepository.ListAsync(r => r.UserId == userId);
+            return reviews;
         }
     }
 }
