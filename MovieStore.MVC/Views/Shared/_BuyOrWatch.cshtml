@@ -1,0 +1,21 @@
+@using System.Security.Claims
+@model MovieStore.Core.Entities.Movie
+@{
+    var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+    var isPurchased = Model.Purchases.FirstOrDefault(p => p.UserId == userId) != null;
+}
+
+<div class="row">
+@if (isPurchased)
+{
+    <a class="btn btn-block btn-outline-light"><i class="fas fa-video"></i>&nbsp; WATCH</a>
+}
+else
+{
+    <form class="container-fluid px-0" asp-controller="User" asp-action="Purchase" method="post">
+        <input type="hidden" name="MovieId" value="@Model.Id"/>
+        <input type="hidden" name="Price" value="@Model.Price"/>
+        <button type="submit" class="btn btn-block btn-outline-light"><i class="fas fa-shopping-cart"></i>&nbsp; BUY &nbsp; $ @Model.Price</button>
+    </form>
+}
+</div>

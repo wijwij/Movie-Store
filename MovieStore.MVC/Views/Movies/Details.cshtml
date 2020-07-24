@@ -24,9 +24,7 @@
             <div class="row">
                 <a class="btn btn-block btn-outline-light mb-3"><i class="fas fa-play"></i>&nbsp; TRAILER</a>
             </div>
-            <div class="row">
-                <a class="btn btn-block btn-outline-light"><i class="fas fa-shopping-cart"></i>&nbsp; BUY</a>
-            </div>
+            @await Html.PartialAsync("_BuyOrWatch", Model)
         </div>
     </div>
     

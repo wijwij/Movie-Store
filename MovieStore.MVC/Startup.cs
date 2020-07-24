@@ -55,6 +55,8 @@ namespace MovieStore.MVC
 
             services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IReviewService, ReviewService>();
 

@@ -16,12 +16,14 @@ namespace MovieStore.Infrastructure.Services
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
         private readonly IFavoriteRepository _favoriteRepository;
+        private readonly IPurchaseRepository _purchaseRepository;
 
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService, IFavoriteRepository favoriteRepository)
+        public UserService(IUserRepository userRepository, ICryptoService cryptoService, IFavoriteRepository favoriteRepository, IPurchaseRepository purchaseRepository)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
             _favoriteRepository = favoriteRepository;
+            _purchaseRepository = purchaseRepository;
         }
         public async Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel requestModel)
         {
@@ -104,6 +106,19 @@ namespace MovieStore.Infrastructure.Services
         {
             var isFavorite = await _favoriteRepository.GetExistsAsync(f => f.MovieId == movieId && f.UserId == userId);
             return isFavorite;
+        }
+
+        public async Task PurchaseMovie(UserPurchaseRequestModel requestModel, int userId)
+        {
+            var purchase = new Purchase
+            {
+                UserId = userId,
+                MovieId = requestModel.MovieId,
+                PurchaseNumber = requestModel.PurchaseNumber,
+                TotalPrice = requestModel.Price,
+                PurchaseDateTime = requestModel.PurchaseTime
+            };
+            await _purchaseRepository.AddAsync(purchase);
         }
     }
 }

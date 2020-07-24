@@ -91,5 +91,14 @@ namespace MovieStore.MVC.Controllers
             var reviews = await _reviewService.GetReviews(userId);
             return View(reviews);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Purchase(UserPurchaseRequestModel requestModel)
+        {
+            var userId = Convert.ToInt32(HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            await _userService.PurchaseMovie(requestModel, userId);
+            return View();
+        }
     }
 }

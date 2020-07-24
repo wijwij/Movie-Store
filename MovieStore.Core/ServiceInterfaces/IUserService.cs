@@ -12,5 +12,6 @@ namespace MovieStore.Core.ServiceInterfaces
         Task FavoriteMovie(int movieId, int userId);
         Task UnfavoriteMovie(int movieId, int userId);
         Task<bool> IsFavorite(int userId, int movieId);
+        Task PurchaseMovie(UserPurchaseRequestModel requestModel, int userId);
     }
 }
