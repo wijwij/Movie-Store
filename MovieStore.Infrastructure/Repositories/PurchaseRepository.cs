@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MovieStore.Core.Entities;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Infrastructure.Data;
@@ -8,6 +12,12 @@ namespace MovieStore.Infrastructure.Repositories
     {
         public PurchaseRepository(MoviesStoreDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<IEnumerable<Movie>> GetPurchasedMovieByUser(int userId)
+        {
+            var movies = await _dbContext.Purchases.Where(p => p.UserId == userId).Include(p => p.Movie).Select(p => p.Movie).ToListAsync();
+            return movies;
         }
     }
 }

@@ -17,11 +17,13 @@ namespace MovieStore.MVC.Controllers
     {
         private readonly IUserService _userService;
         private readonly IReviewService _reviewService;
+        private readonly IPurchaseService _purchaseService;
 
-        public UserController(IUserService userService, IReviewService reviewService)
+        public UserController(IUserService userService, IReviewService reviewService, IPurchaseService purchaseService)
         {
             _userService = userService;
             _reviewService = reviewService;
+            _purchaseService = purchaseService;
         }
 
         public IActionResult Index()
@@ -99,6 +101,14 @@ namespace MovieStore.MVC.Controllers
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
             await _userService.PurchaseMovie(requestModel, userId);
             return View();
+        }
+
+        public async Task<IActionResult> Purchases()
+        {
+            var userId = Convert.ToInt32(HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var movies = await _purchaseService.GetAllPurchasedMovie(userId);
+            return View(movies);
         }
     }
 }
