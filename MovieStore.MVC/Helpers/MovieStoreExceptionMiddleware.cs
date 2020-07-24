@@ -13,7 +13,7 @@ namespace MovieStore.MVC.Helpers
         // ASP.NET Core logging is builtin to the framework
         private readonly ILogger<MovieStoreExceptionMiddleware> _logger;
 
-        public MovieStoreExceptionMiddleware(RequestDelegate next, ILogger <MovieStoreExceptionMiddleware> logger)
+        public MovieStoreExceptionMiddleware(RequestDelegate next, ILogger<MovieStoreExceptionMiddleware> logger)
         {
             _next = next;
             _logger = logger;
@@ -23,12 +23,11 @@ namespace MovieStore.MVC.Helpers
         {
             try
             {
-                // _logger.LogInformation("MovieStoreExceptionMiddleware is called");
+                // Call the next delegate/middleware in the pipeline
                 await _next(httpContext);
             }
             catch (Exception e)
             {
-                // _logger.LogInformation($"exception happedn: {e}");
                 await HandleException(httpContext, e);
             }
         }
@@ -39,7 +38,7 @@ namespace MovieStore.MVC.Helpers
              * 1 Log the exception details: exception message, exception stack trace, when the exception happened(Datetime), user info, code position.
              *   Most popular logging frameworks in .Net are Serilog(pick), NLog and Log4net (Nuget)
              * 2 Send notification(email preferred) to the Dev team.
-             *   MailKit(free) -- send emails, SendGrid(paid, free for some time)
+             *   MailKit(free) -- send emails, SendGrid(paid, free trial
              * 3 Display a friendly error page to the User
              */
             _logger.LogInformation("--------START OF LOGGING----------");

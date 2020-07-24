@@ -37,7 +37,7 @@ namespace MovieStore.MVC.Controllers
         }
 
         /*
-         * ToDo [review]
+         * ToDo [review data flow from model to view]
          * three ways to send data from model to view
          *   1. strongly-typed models
          *   2. ViewBag - dynamic
@@ -55,7 +55,7 @@ namespace MovieStore.MVC.Controllers
         }
         
         /*
-         * ToDo [review]
+         * ToDo [review - model binding]
          * Model Binding (microsoft build for us): case in-sensitive
          * map the in-coming requests input elements key/value with the parameters of the action method.
          * it will also perform casting and converting

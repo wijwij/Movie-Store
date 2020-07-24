@@ -77,6 +77,7 @@ namespace MovieStore.MVC.Controllers
         }
 
         /*
+         * ToDo [review filters]
          * Filters (attribute) in ASP.NET. Some piece of code that runs either before an controller or action method executes or when some event happens.
          * 1. authorization
          * 2. action filter
