@@ -56,7 +56,7 @@ namespace MovieStore.MVC.Helpers
 
     public static class MovieStoreExceptionMiddlewareExtensions
     {
-        public static IApplicationBuilder UserMovieStoreExceptionMiddleware(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseMovieStoreExceptionMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<MovieStoreExceptionMiddleware>();
         }

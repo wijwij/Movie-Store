@@ -76,7 +76,7 @@ namespace MovieStore.MVC
             if (env.IsDevelopment())
             {
                 // app.UseDeveloperExceptionPage();
-                app.UserMovieStoreExceptionMiddleware();
+                app.UseMovieStoreExceptionMiddleware();
             }
             else
             {
