@@ -10,14 +10,14 @@
 {
     <form asp-controller="User" asp-action="Unfavorite" method="post">
         <input type="hidden" value="@Model.Id" name="MovieId"/>
-        <button type="submit" class="btn btn-outline-light mb-3"><a><i class="fas fa-heart"></i></a></button>
+        <button type="submit" class="btn btn-outline-light mb-3"><a><i class="fas fa-heart"></i>&nbsp; Remove Favorite</a></button>
     </form>
 }
 else
 {
     <form asp-controller="User" asp-action="Favorite" method="post">
         <input type="hidden" value="@Model.Id" name="MovieId"/>
-        <button type="submit" class="btn btn-outline-light mb-3"><a><i class="far fa-heart"></i></a></button>
+        <button type="submit" class="btn btn-outline-light mb-3"><a><i class="far fa-heart"></i>&nbsp; Favorite</a></button>
     </form>
 }
 </div>
