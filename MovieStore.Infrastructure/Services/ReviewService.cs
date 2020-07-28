@@ -15,11 +15,11 @@ namespace MovieStore.Infrastructure.Services
         {
             _reviewRepository = reviewRepository;
         }
-        public async Task WriteReview(ReviewRequestModel requestModel, int userId)
+        public async Task WriteReview(ReviewRequestModel requestModel)
         {
             var review = new Review
             {
-                UserId = userId, MovieId = requestModel.MovieId, Rating = requestModel.Rating,
+                UserId = requestModel.UserId, MovieId = requestModel.MovieId, Rating = requestModel.Rating,
                 ReviewText = requestModel.ReviewText
             };
             await _reviewRepository.AddAsync(review);

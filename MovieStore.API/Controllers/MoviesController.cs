@@ -11,10 +11,12 @@ namespace MovieStore.API.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IMovieService _movieService;
+        private readonly IMovieGenreService _movieGenreService;
 
-        public MoviesController(IMovieService movieService)
+        public MoviesController(IMovieService movieService, IMovieGenreService movieGenreService)
         {
             _movieService = movieService;
+            _movieGenreService = movieGenreService;
         }
 
         [HttpGet]
@@ -23,7 +25,32 @@ namespace MovieStore.API.Controllers
         {
             var movies = await _movieService.GetHighestGrossingMovies();
             if (!movies.Any()) return NotFound("No movies are found!");
-            // return data along with HTTP status code
+            // the built-in Ok() return json type with 200 HTTP status code
+            return Ok(movies);
+        }
+        
+        [HttpGet]
+        [Route("toprated")]
+        public async Task<IActionResult> GetTopRatedMovies()
+        {
+            var movies = await _movieService.GetTop25RatedMovies();
+            if (!movies.Any()) return NotFound("No movies are found!");
+            return Ok(movies);
+        }
+
+        [HttpGet]
+        [Route("details/{id}")]
+        public async Task<IActionResult> GetMovieDetailById([FromRoute] int id)
+        {
+            var movie = await _movieService.GetMovieById(id);
+            return Ok(movie);
+        }
+
+        [HttpGet]
+        [Route("genre/{genreId}")]
+        public async Task<IActionResult> GetMoviesByGenre([FromRoute] int genreId)
+        {
+            var movies = await _movieGenreService.GetMoviesByGenre(genreId);
             return Ok(movies);
         }
     }

@@ -46,7 +46,7 @@ namespace MovieStore.MVC.Controllers
         {
             var userId = Convert.ToInt32(HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
-            await _userService.UnfavoriteMovie(requestModel.MovieId, userId);
+            await _userService.RemoveFavoriteMovie(requestModel.MovieId, userId);
 
             return Redirect($"~/Movies/Details/{requestModel.MovieId}");
         }
@@ -73,7 +73,8 @@ namespace MovieStore.MVC.Controllers
         {
             var userId = Convert.ToInt32(HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
-            await _reviewService.WriteReview(requestModel, userId);
+            requestModel.UserId = userId;
+            await _reviewService.WriteReview(requestModel);
         }
 
         /*
@@ -100,7 +101,8 @@ namespace MovieStore.MVC.Controllers
         {
             var userId = Convert.ToInt32(HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
-            await _userService.PurchaseMovie(requestModel, userId);
+            requestModel.UserId = userId;
+            await _userService.PurchaseMovie(requestModel);
             return View();
         }
 

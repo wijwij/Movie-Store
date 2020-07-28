@@ -95,7 +95,7 @@ namespace MovieStore.Infrastructure.Services
             await _favoriteRepository.AddAsync(favorite);
         }
 
-        public async Task UnfavoriteMovie(int movieId, int userId)
+        public async Task RemoveFavoriteMovie(int movieId, int userId)
         {
             var collection = await _favoriteRepository.ListAsync(f => f.MovieId == movieId && f.UserId == userId);
             var favorite = collection.FirstOrDefault();
@@ -108,11 +108,11 @@ namespace MovieStore.Infrastructure.Services
             return isFavorite;
         }
 
-        public async Task PurchaseMovie(UserPurchaseRequestModel requestModel, int userId)
+        public async Task PurchaseMovie(UserPurchaseRequestModel requestModel)
         {
             var purchase = new Purchase
             {
-                UserId = userId,
+                UserId = requestModel.UserId,
                 MovieId = requestModel.MovieId,
                 PurchaseNumber = requestModel.PurchaseNumber,
                 TotalPrice = requestModel.Price,

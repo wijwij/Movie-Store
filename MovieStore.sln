@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.Core", "MovieSto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.Infrastructure", "MovieStore.Infrastructure\MovieStore.Infrastructure.csproj", "{B37E0375-429A-404C-96D5-F38B73877A93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.API", "MovieStore.API\MovieStore.API.csproj", "{AEF2B441-E8C2-4F8B-9389-10B4ADCE7F08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{B37E0375-429A-404C-96D5-F38B73877A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B37E0375-429A-404C-96D5-F38B73877A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B37E0375-429A-404C-96D5-F38B73877A93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF2B441-E8C2-4F8B-9389-10B4ADCE7F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF2B441-E8C2-4F8B-9389-10B4ADCE7F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF2B441-E8C2-4F8B-9389-10B4ADCE7F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF2B441-E8C2-4F8B-9389-10B4ADCE7F08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
