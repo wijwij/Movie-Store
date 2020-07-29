@@ -24,7 +24,7 @@ namespace MovieStore.Infrastructure.Repositories
                 .Include(m => m.Reviews).Include(m => m.Purchases)
                 .Include(m => m.Favorites).FirstOrDefaultAsync();
             // populate the rating field.
-            movie.Rating = movie.Reviews.Average(r => r.Rating);
+            if(movie != null) movie.Rating = Decimal.Round(movie.Reviews.Average(r => r.Rating), 2);
             return movie;
         }
 
