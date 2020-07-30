@@ -1,4 +1,4 @@
-@model IEnumerable<MovieStore.Core.Entities.Review>
+@model IEnumerable<MovieStore.Core.Models.Response.UserReviewedMovieResponseModel>
 
 @{
     ViewBag.Title = "title";
@@ -19,7 +19,7 @@
     <tr>
       <td>@r.ReviewText</td>
       <td>@r.Rating</td>
-      <td><a asp-controller="Movies" asp-action="Details" asp-route-id="@r.MovieId"> @r.Movie.Title </a></td>
+      <td><a asp-controller="Movies" asp-action="Details" asp-route-id="@r.MovieId"> @r.Title </a></td>
     </tr>
   }
   </tbody>

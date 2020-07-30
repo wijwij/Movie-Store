@@ -94,11 +94,7 @@ namespace MovieStore.API.Controllers
         {
             // ToDo [refactor getting user identity]
             var reviews = await _userService.GetUserReviewedMovies(id);
-            // ToDo [return reviews will throw error]
-            // A possible object cycle was detected which is not supported.
-            var response = reviews.Select(r => new
-                {r.MovieId, r.Movie.Title, r.Movie.PosterUrl, r.Rating, r.ReviewText});
-            return Ok(response);
+            return Ok(reviews);
         }
         
         [HttpGet]

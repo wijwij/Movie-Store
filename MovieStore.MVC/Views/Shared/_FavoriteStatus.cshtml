@@ -1,9 +1,9 @@
 @using System.Security.Claims
-@model MovieStore.Core.Entities.Movie
+@model MovieStore.Core.Models.Response.MovieDetailResponseModel
 
 @{
     var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
-    var isFavorited = Model.Favorites.FirstOrDefault(f => f.UserId == userId && f.MovieId == Model.Id) != null;
+    var isFavorited = Model.IsFavoriteByUser;
 }
 <div class="row">
 @if (User.Identity.IsAuthenticated && isFavorited)

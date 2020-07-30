@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MovieStore.Core.Entities;
+using MovieStore.Core.Models.Response;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
 
@@ -14,10 +16,12 @@ namespace MovieStore.Infrastructure.Services
         {
             _purchaseRepository = purchaseRepository;
         }
-        public async Task<IEnumerable<Movie>> GetAllPurchasedMovie(int userId)
+        public async Task<IEnumerable<MovieCardResponseModel>> GetAllPurchasedMovie(int userId)
         {
             var movies = await _purchaseRepository.GetPurchasedMovieByUser(userId);
-            return movies;
+            var response = movies.Select(m => new MovieCardResponseModel
+                {Id = m.Id, Title = m.Title, PosterUrl = m.PosterUrl});
+            return response;
         }
     }
 }

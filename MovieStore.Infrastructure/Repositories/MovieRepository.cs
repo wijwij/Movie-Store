@@ -19,10 +19,9 @@ namespace MovieStore.Infrastructure.Repositories
 
         public override async Task<Movie> GetByIdAsync(int id)
         {
-            var movie = await _dbContext.Movies.Where(m => m.Id == id).Include(m => m.MovieGenres)
+            var movie = await _dbContext.Movies.Where(m => m.Id == id).Include(m => m.MovieGenres).ThenInclude(mg => mg.Genre)
                 .Include(m => m.MovieCasts).ThenInclude(mc => mc.Cast)
-                .Include(m => m.Reviews).Include(m => m.Purchases)
-                .Include(m => m.Favorites).FirstOrDefaultAsync();
+                .Include(m => m.Reviews).FirstOrDefaultAsync();
             // populate the rating field.
             if(movie != null) movie.Rating = Decimal.Round(movie.Reviews.Average(r => r.Rating), 2);
             return movie;

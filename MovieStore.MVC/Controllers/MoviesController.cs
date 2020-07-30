@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieStore.Core.Entities;
@@ -25,7 +27,10 @@ namespace MovieStore.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var movie = await _movieService.GetMovieById(id);
+            var userId = Convert.ToInt32(User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var movie = await _movieService.GetMovieById(id, userId);
+            
             return View(movie);
         }
 

@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MovieStore.Core.Entities;
 using MovieStore.Core.Models.Request;
+using MovieStore.Core.Models.Response;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
 
@@ -23,12 +26,6 @@ namespace MovieStore.Infrastructure.Services
                 ReviewText = requestModel.ReviewText
             };
             return await _reviewRepository.AddAsync(review);
-        }
-
-        public async Task<IEnumerable<Review>> GetReviews(int userId)
-        {
-            var reviews = await _reviewRepository.ListAsync(r => r.UserId == userId);
-            return reviews;
         }
 
         public async Task<Review> UpdateReview(ReviewRequestModel requestModel)

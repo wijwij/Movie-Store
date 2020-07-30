@@ -1,4 +1,4 @@
-@model MovieStore.Core.Entities.Movie
+@model MovieStore.Core.Models.Response.MovieDetailResponseModel
 
 @{
     ViewBag.Title = "Movie Details";
@@ -43,11 +43,11 @@
         <div class="col-md-9">
             <div class="card shadow-sm border-top-0 border-left-0 border-right-0">
                 <h4 class="card-title pt-2 pl-2">Movie Cast</h4>
-                @foreach (var mc in Model.MovieCasts)
+                @foreach (var mc in Model.Casts)
                     {
                         <ul class="list-group list-group-horizontal">
-                            <a class="list-group-item col-4" asp-controller="" asp-action=""> <img class="rounded-circle img-fluid w-25" src="@mc.Cast.ProfilePath" alt="@mc.Cast.Name" /> </a>
-                            <a class="list-group-item col-4" asp-controller="" asp-action=""> @mc.Cast.Name </a>
+                            <a class="list-group-item col-4" asp-controller="" asp-action=""> <img class="rounded-circle img-fluid w-25" src="@mc.ProfilePath" alt="@mc.Name" /> </a>
+                            <a class="list-group-item col-4" asp-controller="" asp-action=""> @mc.Name </a>
                             <span class="list-group-item col-4"> @mc.Character </span>
                         </ul>
                     }

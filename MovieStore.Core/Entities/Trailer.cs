@@ -14,7 +14,6 @@ namespace MovieStore.Core.Entities
         public int MovieId { get; set; }
         
         // Navigation property. Given the trailer id, it is easy to find the Movie
-        // ToDo [search navigation property]
         public Movie Movie { get; set; }
     }
 }

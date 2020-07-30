@@ -92,7 +92,7 @@ namespace MovieStore.MVC.Controllers
         {
             var userId = Convert.ToInt32(HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
-            var reviews = await _reviewService.GetReviews(userId);
+            var reviews = await _userService.GetUserReviewedMovies(userId);
             return View(reviews);
         }
 

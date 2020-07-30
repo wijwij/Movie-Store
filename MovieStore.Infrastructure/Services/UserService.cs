@@ -130,10 +130,23 @@ namespace MovieStore.Infrastructure.Services
             return movies;
         }
 
-        public async Task<IEnumerable<Review>> GetUserReviewedMovies(int userId)
+        public async Task<IEnumerable<UserReviewedMovieResponseModel>> GetUserReviewedMovies(int userId)
         {
-            var reviewedMovies = await _reviewRepository.GetUserReviewedMovies(userId);
-            return reviewedMovies;
+            var reviews = await _reviewRepository.GetUserReviewedMovies(userId);
+            if(reviews == null) throw new Exception("You haven't reviewed any movies...");
+            var response = reviews.Select(r => new UserReviewedMovieResponseModel
+            {
+                UserId = r.UserId,
+                MovieId = r.MovieId,
+                Title = r.Movie.Title,
+                PosterUrl = r.Movie.PosterUrl,
+                ReviewText = r.ReviewText,
+                Rating = r.Rating,
+                FirstName = r.User.FirstName,
+                LastName = r.User.LastName,
+                UserName = r.User.UserName
+            });
+            return response;
         }
 
         public async Task<bool> IsMovieReviewedByUser(int userId, int movieId)

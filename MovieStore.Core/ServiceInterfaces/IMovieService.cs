@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MovieStore.Core.Entities;
+using MovieStore.Core.Models.Response;
 
 namespace MovieStore.Core.ServiceInterfaces
 {
@@ -10,9 +11,9 @@ namespace MovieStore.Core.ServiceInterfaces
         /*
          * expose functionality that are needed by client
          */
-        Task<IEnumerable<Movie>> GetHighestGrossingMovies();
-        Task<IEnumerable<Movie>> GetTop25RatedMovies();
-        Task<Movie> GetMovieById(int id);
+        Task<IEnumerable<MovieCardResponseModel>> GetHighestGrossingMovies();
+        Task<IEnumerable<MovieCardResponseModel>> GetTop25RatedMovies();
+        Task<MovieDetailResponseModel> GetMovieById(int movieId, int? userId = null);
         Task<Movie> CreateMovie(Movie movie);
         Task<Movie> UpdateMovie(Movie movie);
         Task<int> GetMoviesCount(string title = "");
