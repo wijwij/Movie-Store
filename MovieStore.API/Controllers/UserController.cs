@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieStore.Core.Models.Request;
@@ -32,6 +34,7 @@ namespace MovieStore.API.Controllers
         [Route("purchases")]
         public async Task<IActionResult> GetUserPurchasedMovies([FromHeader] int userId)
         {
+            // ToDo [refactor getting user identity]
             var purchases = await _purchaseService.GetAllPurchasedMovie(userId);
             return Ok(purchases);
         }
@@ -52,27 +55,57 @@ namespace MovieStore.API.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("favorites/{id}")]
+        public async Task<IActionResult> GetUserFavoriteMovies(int id)
+        {
+            // ToDo [refactor getting user identity]
+            var movies = await _userService.GetUserFavoriteMovies(id);
+            return Ok(movies);
+        }
+
         [HttpPost]
-        [Route("review")]
+        [Route("leave/review")]
         public async Task<IActionResult> WriteReview([FromBody] ReviewRequestModel model)
         {
-            await _reviewService.WriteReview(model);
-            return Ok();
+            var review = await _reviewService.WriteReview(model);
+            return Ok(review);
+        }
+
+        [HttpPut]
+        [Route("update/review")]
+        public async Task<IActionResult> UpdateReview(ReviewRequestModel model)
+        {
+            var review = await _reviewService.UpdateReview(model);
+            return Ok(review);
+        }
+
+        [HttpDelete]
+        [Route("delete/review")]
+        public async Task<IActionResult> DeleteReview(ReviewRequestModel model)
+        {
+            await _reviewService.DeleteReview(model);
+            return Ok("The review has been deleted");
         }
         
         [HttpGet]
         [Route("reviews/{id}")]
-        public async Task<IActionResult> Reviews(int id)
+        public async Task<IActionResult> GetUserReviewedMovies(int id)
         {
-            var reviews = await _reviewService.GetReviews(id);
-            return Ok(reviews);
+            // ToDo [refactor getting user identity]
+            var reviews = await _userService.GetUserReviewedMovies(id);
+            // ToDo [return reviews will throw error]
+            // A possible object cycle was detected which is not supported.
+            var response = reviews.Select(r => new
+                {r.MovieId, r.Movie.Title, r.Movie.PosterUrl, r.Rating, r.ReviewText});
+            return Ok(response);
         }
         
         [HttpGet]
         [Route("{userId}/movie/{movieId}/favorite")]
         public async Task<IActionResult> IsFavorite(int userId, int movieId)
         {
-            var isFavorite = await _userService.IsFavorite(userId, movieId);
+            var isFavorite = await _userService.IsMovieFavoriteByUser(userId, movieId);
             return Ok(new {IsFavorite = isFavorite});
         }
     }

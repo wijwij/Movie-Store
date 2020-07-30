@@ -56,7 +56,7 @@ namespace MovieStore.MVC.Controllers
         {
             try
             {
-                var isFavorite = await _userService.IsFavorite(id, movieId);
+                var isFavorite = await _userService.IsMovieFavoriteByUser(id, movieId);
                 // write to the response
                 HttpContext.Response.StatusCode = (int) HttpStatusCode.OK;
                 await HttpContext.Response.WriteAsync($"{isFavorite}");

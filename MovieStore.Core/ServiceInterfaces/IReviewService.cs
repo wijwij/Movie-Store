@@ -7,7 +7,9 @@ namespace MovieStore.Core.ServiceInterfaces
 {
     public interface IReviewService
     {
-        Task WriteReview(ReviewRequestModel requestModel);
+        Task<Review> WriteReview(ReviewRequestModel requestModel);
+        Task<Review> UpdateReview(ReviewRequestModel requestModel);
+        Task DeleteReview(ReviewRequestModel requestModel);
         Task<IEnumerable<Review>> GetReviews(int userId);
     }
 }

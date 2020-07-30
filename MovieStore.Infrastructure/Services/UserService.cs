@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -17,13 +18,15 @@ namespace MovieStore.Infrastructure.Services
         private readonly ICryptoService _cryptoService;
         private readonly IFavoriteRepository _favoriteRepository;
         private readonly IPurchaseRepository _purchaseRepository;
+        private readonly IReviewRepository _reviewRepository;
 
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService, IFavoriteRepository favoriteRepository, IPurchaseRepository purchaseRepository)
+        public UserService(IUserRepository userRepository, ICryptoService cryptoService, IFavoriteRepository favoriteRepository, IPurchaseRepository purchaseRepository, IReviewRepository reviewRepository)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
             _favoriteRepository = favoriteRepository;
             _purchaseRepository = purchaseRepository;
+            _reviewRepository = reviewRepository;
         }
         public async Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel requestModel)
         {
@@ -102,7 +105,7 @@ namespace MovieStore.Infrastructure.Services
             if(favorite != null) await _favoriteRepository.DeleteAsync(favorite);
         }
 
-        public async Task<bool> IsFavorite(int userId, int movieId)
+        public async Task<bool> IsMovieFavoriteByUser(int userId, int movieId)
         {
             var isFavorite = await _favoriteRepository.GetExistsAsync(f => f.MovieId == movieId && f.UserId == userId);
             return isFavorite;
@@ -119,6 +122,23 @@ namespace MovieStore.Infrastructure.Services
                 PurchaseDateTime = requestModel.PurchaseTime
             };
             await _purchaseRepository.AddAsync(purchase);
+        }
+
+        public async Task<IEnumerable<Movie>> GetUserFavoriteMovies(int userId)
+        {
+            var movies = await _userRepository.GetUserFavoriteMoviesAsync(userId);
+            return movies;
+        }
+
+        public async Task<IEnumerable<Review>> GetUserReviewedMovies(int userId)
+        {
+            var reviewedMovies = await _reviewRepository.GetUserReviewedMovies(userId);
+            return reviewedMovies;
+        }
+
+        public async Task<bool> IsMovieReviewedByUser(int userId, int movieId)
+        {
+            return await _reviewRepository.GetExistsAsync(r => r.UserId == userId && r.MovieId == movieId);
         }
     }
 }

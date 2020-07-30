@@ -20,5 +20,12 @@ namespace MovieStore.Infrastructure.Repositories
         {
             return await _dbContext.Reviews.Where(filter).Include(r => r.Movie).ToListAsync();
         }
+
+        public async Task<IEnumerable<Review>> GetUserReviewedMovies(int userId)
+        {
+            var reviewedMovies =
+                await _dbContext.Reviews.Where(r => r.UserId == userId).Include(r => r.Movie).ToListAsync();
+            return reviewedMovies;
+        }
     }
 }

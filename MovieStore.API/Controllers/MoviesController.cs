@@ -47,11 +47,11 @@ namespace MovieStore.API.Controllers
         }
 
         [HttpGet]
-        [Route("genre/{genreId}")]
-        public async Task<IActionResult> GetMoviesByGenre([FromRoute] int genreId)
+        [Route("genres/{movieId}")]
+        public async Task<IActionResult> GetGenresByMovie(int movieId)
         {
-            var movies = await _movieGenreService.GetMoviesByGenre(genreId);
-            return Ok(movies);
+            var genres = await _movieGenreService.GetGenresByMovie(movieId);
+            return Ok(genres);
         }
     }
 }
