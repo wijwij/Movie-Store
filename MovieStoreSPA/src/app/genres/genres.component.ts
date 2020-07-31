@@ -12,7 +12,7 @@ export class GenresComponent implements OnInit {
   constructor(private genreService: GenreService) {}
 
   /**
-   * Page Life cycle Hooks
+   * Component Life cycle Hooks
    */
   ngOnInit(): void {
     // initialize any data, call the api etc

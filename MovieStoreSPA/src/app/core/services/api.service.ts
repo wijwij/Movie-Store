@@ -14,7 +14,7 @@ export class ApiService {
   constructor(protected http: HttpClient) {}
   // ToDo [question: why use Observable]
   getAll(path: string): Observable<any[]> {
-    // we don't want to work with JSON directly, instead working with strongly typed object
+    // don't work with JSON directly, instead working with strongly typed object
 
     // make a http request, you need to subscribe the response data.
     // Observable can be finite (one response) or infinite (multiple responses)
@@ -28,7 +28,11 @@ export class ApiService {
       .get(`${environment.apiUrl}${path}/${id}`)
       .pipe(map((res) => res as any));
   }
-  create() {}
+  create(path: string, model: any): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}${path}`, model)
+      .pipe(map((res) => res as any));
+  }
   update() {}
   delete() {}
 }
