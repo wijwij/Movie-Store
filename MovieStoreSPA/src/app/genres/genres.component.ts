@@ -15,11 +15,10 @@ export class GenresComponent implements OnInit {
    * Component Life cycle Hooks
    */
   ngOnInit(): void {
-    // initialize any data, call the api etc
+    // initialize the data fetched from web api, etc
     this.genreService.getAllGenres().subscribe((gs) => {
-      console.log('genre init method');
       this.genres = gs;
-      console.log(this.genres);
+      // console.log(this.genres);
     });
   }
 }

@@ -14,8 +14,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.movieService.getTopMovies().subscribe((m) => {
       this.movies = m;
-      console.log('show top movies');
-      console.log(this.movies);
     });
   }
 }
