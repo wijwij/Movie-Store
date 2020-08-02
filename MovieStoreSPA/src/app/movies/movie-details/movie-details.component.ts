@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Movie } from 'src/app/shared/models/movie';
 import { MovieService } from 'src/app/core/services/movie.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-movie-details',
@@ -14,7 +15,8 @@ export class MovieDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -25,5 +27,9 @@ export class MovieDetailsComponent implements OnInit {
         console.log(this.movie);
       });
     });
+  }
+
+  leaveReview(content) {
+    this.modalService.open(content, { size: 'lg' });
   }
 }

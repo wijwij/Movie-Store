@@ -1,3 +1,192 @@
-<h1>
-  Get Movie Id from URL and go to API to fetch Movie Details and display here
-</h1>
+<div class="container-fluid">
+  <!-- Movie Header Section -->
+  <div class="row bg-dark text-light">
+    <!-- Movie Poster -->
+    <div class="col-3 px-0">
+      <img [src]="movie.posterUrl" class="img-fluid" [alt]="movie.title" />
+    </div>
+    <!-- Movie Overview -->
+    <div class="col-6 card bg-dark text-light pt-3 mt-4 border-dark">
+      <h2 class="card-title">{{ movie.title }}</h2>
+      <h6 class="card-subtitle mb-2 text-muted">
+        <p>{{ movie.tagline }}</p>
+      </h6>
+      <h6 class="card-subtitle mb-2 text-muted">
+        {{ movie.runTime }} m | {{ movie.createdDate | date: "mediumDate" }}
+      </h6>
+      <h6 class="card-subtitle mb-2 pt-2">
+        <span class="badge badge-warning">{{ movie.rating }} </span>
+      </h6>
+      <h6 class="card-subtitle mb-2 pt-2">
+        <span *ngFor="let genre of movie.genres" class="badge badge-light mr-1">
+          <a [routerLink]="['/movies/genres', genre.id]" class="text-secondary">
+            {{ genre.name }}
+          </a>
+        </span>
+      </h6>
+      <p class="card-body">{{ movie.overview }}</p>
+    </div>
+
+    <!-- User Action Section -->
+    <div class="col-3 pt-4 mt-5">
+      <div class="row">
+        <form *ngIf="movie.isFavoriteByUser" method="post">
+          <input type="hidden" [value]="movie.id" name="MovieId" />
+          <button type="submit" class="btn btn-outline-light mb-3">
+            <a><i class="fas fa-heart"></i>&nbsp; Remove Favorite</a>
+          </button>
+        </form>
+
+        <form *ngIf="!movie.isFavoriteByUser" method="post">
+          <input type="hidden" [value]="movie.id" name="MovieId" />
+          <button type="submit" class="btn btn-outline-light mb-3">
+            <a><i class="far fa-heart"></i>&nbsp; Favorite</a>
+          </button>
+        </form>
+      </div>
+
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title">Leave a Review</h4>
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post">
+          <div class="modal-body text-dark">
+            <div class="form-group">
+              <label>Review</label>
+              <input
+                type="text"
+                class="form-control"
+                name="ReviewText"
+                placeholder="Please leave a review with no longer than 280 characters..."
+              />
+            </div>
+            <div class="form-group">
+              <label>Rating: 0 - 10</label>
+              <input
+                type="range"
+                class="custom-range"
+                min="0"
+                max="10"
+                step="1"
+                name="Rating"
+              />
+            </div>
+            <input type="hidden" [value]="movie.id" name="MovieId" />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              (click)="modal.close('Close click')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </form>
+        <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+          </div> -->
+      </ng-template>
+      <div class="row">
+        <button
+          class="btn btn-block btn-outline-light mb-3"
+          (click)="leaveReview(content)"
+        >
+          <i class="fas fa-edit"></i>&nbsp; Leave a Review
+        </button>
+      </div>
+      <div class="row">
+        <a class="btn btn-block btn-outline-light mb-3"
+          ><i class="fas fa-play"></i> WATCH TRAILER</a
+        >
+      </div>
+      <div class="row">
+        <a
+          *ngIf="movie.isPurchasedByUser"
+          class="btn btn-block btn-outline-light"
+          ><i class="fas fa-video"></i>&nbsp; WATCH</a
+        >
+
+        <form
+          *ngIf="!movie.isPurchasedByUser"
+          class="container-fluid px-0"
+          method="post"
+        >
+          <input type="hidden" name="MovieId" [value]="movie.id" />
+          <input type="hidden" name="Price" [value]="movie.price" />
+          <button type="submit" class="btn btn-block btn-outline-light">
+            <i class="fas fa-shopping-cart"></i>&nbsp; BUY &nbsp;
+            {{ movie.price | currency }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pt-3 px-0">
+    <div class="col-md-4">
+      <div class="card border-top-0 border-left-0 border-right-0 shadow-sm">
+        <h4 class="card-title pt-2 pl-2">Movie Facts</h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <i class="far fa-calendar-alt"></i>&nbsp; Release Date &nbsp;
+            <span class="badge badge-dark">
+              {{ movie.createdDate | date: "mediumDate" }}
+            </span>
+          </li>
+          <li class="list-group-item">
+            <i class="fas fa-hourglass-half"></i>&nbsp; Run Time &nbsp;
+            <span class="badge badge-dark"> {{ movie.runTime }} m </span>
+          </li>
+          <li class="list-group-item">
+            <i class="fas fa-money-bill"></i>&nbsp; Box Office &nbsp;
+            <span class="badge badge-dark">
+              {{ movie.revenue | currency }}
+            </span>
+          </li>
+          <li class="list-group-item">
+            <i class="fas fa-dollar-sign"></i>&nbsp; Budget &nbsp;
+            <span class="badge badge-dark">
+              {{ movie.budget | currency }}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card shadow-sm border-top-0 border-left-0 border-right-0">
+        <h4 class="card-title pt-2 pl-2">Movie Cast</h4>
+
+        <ul class="list-group">
+          <li
+            *ngFor="let cast of movie.casts"
+            class="list-group list-group-horizontal"
+          >
+            <a class="list-group-item col-4">
+              <img
+                class="rounded-circle img-fluid w-25"
+                [src]="cast.profilePath"
+                [alt]="cast.name"
+              />
+            </a>
+            <a class="list-group-item col-4"> {{ cast.name }} </a>
+            <span class="list-group-item col-4"> {{ cast.character }} </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
