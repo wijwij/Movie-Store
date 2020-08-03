@@ -5,6 +5,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { MovieListComponent } from './movies/movie-list/movie-list.component';
+import { FavoritesComponent } from './account/favorites/favorites.component';
+import { PurchasesComponent } from './account/purchases/purchases.component';
+import { ProfileComponent } from './account/profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +26,18 @@ const routes: Routes = [
   {
     path: 'movies/genres/:id',
     component: MovieListComponent,
+  },
+  {
+    path: 'user/favorite',
+    component: FavoritesComponent,
+  },
+  {
+    path: 'user/purchase',
+    component: PurchasesComponent,
+  },
+  {
+    path: 'user/profile',
+    component: ProfileComponent,
   },
 ];
 

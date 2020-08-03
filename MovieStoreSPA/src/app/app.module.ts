@@ -23,6 +23,9 @@ import {
   NgbAlertModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { MovieListComponent } from './movies/movie-list/movie-list.component';
+import { FavoritesComponent } from './account/favorites/favorites.component';
+import { PurchasesComponent } from './account/purchases/purchases.component';
+import { ProfileComponent } from './account/profile/profile.component';
 
 // Decorators are like attribute in c#, @NgModule includes the metadata object
 @NgModule({
@@ -37,6 +40,9 @@ import { MovieListComponent } from './movies/movie-list/movie-list.component';
     MovieDetailsComponent,
     MovieCardComponent,
     MovieListComponent,
+    FavoritesComponent,
+    PurchasesComponent,
+    ProfileComponent,
   ],
   // Other NgModule you are using
   imports: [

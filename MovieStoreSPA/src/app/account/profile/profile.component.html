@@ -1,0 +1,18 @@
+<div>
+  <!-- User Basic Info -->
+  <div class="row">
+    <ul>
+      <li *ngIf="user?.email">{{ user.email }}</li>
+    </ul>
+  </div>
+  <div class="row">
+    <!-- User Favorite Movies -->
+    <div class="col-6">
+      <app-favorites></app-favorites>
+    </div>
+    <!-- User Purchased Movies -->
+    <div class="col-6">
+      <app-purchases></app-purchases>
+    </div>
+  </div>
+</div>
