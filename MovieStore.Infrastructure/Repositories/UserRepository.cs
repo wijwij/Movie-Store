@@ -27,5 +27,11 @@ namespace MovieStore.Infrastructure.Repositories
             return movies;
         }
 
+        public async Task<User> GetUserProfileAsync(int userId)
+        {
+            var user = await _dbContext.Users.Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+            return user;
+        }
     }
 }

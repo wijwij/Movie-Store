@@ -153,5 +153,25 @@ namespace MovieStore.Infrastructure.Services
         {
             return await _reviewRepository.GetExistsAsync(r => r.UserId == userId && r.MovieId == movieId);
         }
+
+        public async Task<UserProfileResponseModel> GetUserProfile(int userId)
+        {
+            var user = await _userRepository.GetUserProfileAsync(userId);
+            var response = new UserProfileResponseModel
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                DateOfBirth = user.DateOfBirth,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                TwoFactorEnabled = user.TwoFactorEnabled,
+                LockoutEndDate = user.LockoutEndDate,
+                LastLoginDateTime = user.LastLoginDateTime,
+                Roles = user.UserRoles.Select(ur => new AccountRoleResponseModel{Id = ur.Role.Id, Name = ur.Role.Name})
+            };
+            return response;
+        }
     }
 }

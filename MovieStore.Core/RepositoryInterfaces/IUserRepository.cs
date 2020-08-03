@@ -8,5 +8,6 @@ namespace MovieStore.Core.RepositoryInterfaces
     {
         Task<User> GetUserByEmailAsync(string email);
         Task<IEnumerable<Movie>> GetUserFavoriteMoviesAsync(int userId);
+        Task<User> GetUserProfileAsync(int userId);
     }
 }

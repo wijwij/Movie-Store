@@ -31,7 +31,7 @@ namespace MovieStore.API.Controllers
         }
         
         [HttpGet]
-        [Route("purchases")]
+        [Route("purchases/{id}")]
         public async Task<IActionResult> GetUserPurchasedMovies([FromHeader] int userId)
         {
             // ToDo [refactor getting user identity]
@@ -103,6 +103,14 @@ namespace MovieStore.API.Controllers
         {
             var isFavorite = await _userService.IsMovieFavoriteByUser(userId, movieId);
             return Ok(new {IsFavorite = isFavorite});
+        }
+
+        [HttpGet]
+        [Route("profile/{id}")]
+        public async Task<IActionResult> GetUserProfile(int id)
+        {
+            var profile = await _userService.GetUserProfile(id);
+            return Ok(profile);
         }
     }
 }
