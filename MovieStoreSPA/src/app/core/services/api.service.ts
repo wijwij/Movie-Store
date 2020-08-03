@@ -35,6 +35,16 @@ export class ApiService {
       .post(`${environment.apiUrl}${endpoint}`, model)
       .pipe(map((res) => res as any));
   }
-  update() {}
-  delete() {}
+  update(endpoint: string, model: any): Observable<any> {
+    return this.http
+      .put(`${environment.apiUrl}${endpoint}`, model)
+      .pipe(map((res) => res as any));
+  }
+  delete(endpoint: string, id: number): Observable<void> {
+    return this.http.delete(`${environment.apiUrl}${endpoint}/${id}`).pipe(
+      map((response) => {
+        response;
+      })
+    );
+  }
 }
