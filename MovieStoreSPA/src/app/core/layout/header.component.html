@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" [routerLink]="'.'">Movie Store</a>
+  <a class="navbar-brand" [routerLink]="['/']">Movie Store</a>
   <button
     class="navbar-toggler"
     type="button"
@@ -19,24 +19,21 @@
     id="navbarSupportedContent"
   >
     <ul class="navbar-nav mr-auto">
+      <!-- Top Movie Section -->
       <li class="nav-item">
         <div ngbDropdown>
-          <a class="nav-link" style="cursor: pointer;" ngbDropdownToggle
-            >Top Movies</a
-          >
+          <a class="nav-link" ngbDropdownToggle>Top Movies</a>
           <div ngbDropdownMenu>
-            <ul class="list-unstyled p-2">
-              <li><a ngbDropdownItem> Top Revenue Movies</a></li>
-              <li><a ngbDropdownItem> Top Rated Movies</a></li>
-            </ul>
+            <a class="btn" ngbDropdownItem> Top Revenue Movies</a>
+            <a class="btn" ngbDropdownItem> Top Rated Movies</a>
           </div>
         </div>
       </li>
+
+      <!-- Genre List Section -->
       <li class="nav-item">
         <div ngbDropdown>
-          <a class="nav-link" style="cursor: pointer;" ngbDropdownToggle
-            >Genres</a
-          >
+          <a class="nav-link" ngbDropdownToggle>Genres</a>
           <div ngbDropdownMenu>
             <app-genres> </app-genres>
           </div>
