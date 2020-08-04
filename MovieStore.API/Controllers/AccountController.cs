@@ -57,7 +57,7 @@ namespace MovieStore.API.Controllers
                 new Claim(ClaimTypes.GivenName, payload.FirstName),
                 new Claim(ClaimTypes.Surname, payload.LastName),
                 new Claim(ClaimTypes.NameIdentifier, payload.Id.ToString()),
-                new Claim(ClaimTypes.Name, payload.Email),
+                new Claim(ClaimTypes.Email, payload.Email),
             };
             var identityClaim = new ClaimsIdentity(claims);
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenSettings:PrivateKey"]));
