@@ -27,6 +27,7 @@ import { MovieListComponent } from './movies/movie-list/movie-list.component';
 import { FavoritesComponent } from './account/favorites/favorites.component';
 import { PurchasesComponent } from './account/purchases/purchases.component';
 import { ProfileComponent } from './account/profile/profile.component';
+import { OverviewPipe } from './shared/pipes/overview.pipe';
 
 // Decorators are like attribute in c#, @NgModule includes the metadata object
 @NgModule({
@@ -44,6 +45,7 @@ import { ProfileComponent } from './account/profile/profile.component';
     FavoritesComponent,
     PurchasesComponent,
     ProfileComponent,
+    OverviewPipe,
   ],
   // Other NgModule you are using
   imports: [

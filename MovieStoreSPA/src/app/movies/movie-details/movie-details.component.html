@@ -24,7 +24,7 @@
           </a>
         </span>
       </h6>
-      <p class="card-body">{{ movie.overview }}</p>
+      <p class="card-body">{{ movie.overview | overview }}</p>
     </div>
 
     <!-- User Action Section -->
@@ -136,6 +136,7 @@
   </div>
 
   <div class="row pt-3 px-0">
+    <!-- Movie Facts -->
     <div class="col-md-4">
       <div class="card border-top-0 border-left-0 border-right-0 shadow-sm">
         <h4 class="card-title pt-2 pl-2">Movie Facts</h4>
@@ -166,6 +167,7 @@
       </div>
     </div>
 
+    <!-- Movie Cast Info -->
     <div class="col-md-8">
       <div class="card shadow-sm border-top-0 border-left-0 border-right-0">
         <h4 class="card-title pt-2 pl-2">Movie Cast</h4>
