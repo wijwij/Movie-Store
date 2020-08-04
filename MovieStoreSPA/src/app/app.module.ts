@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // import 3-rd parth libraries
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -57,6 +58,8 @@ import { ProfileComponent } from './account/profile/profile.component';
     NgbPaginationModule,
     NgbTabsetModule,
     NgbAlertModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   // Dependency injection
   providers: [],
