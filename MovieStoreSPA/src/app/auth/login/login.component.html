@@ -1,5 +1,8 @@
 <div class="pt-3">
   <h1 className="large text-primary">Sign In</h1>
+  <span *ngIf="invalidLogin" class="badge badge-info">
+    Invalid username and/or password.
+  </span>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="formGroupExampleInput">Email</label>
@@ -30,4 +33,8 @@
       </button>
     </div>
   </form>
+
+  <!-- Template Form Approach -->
+  <!-- use template reference -->
+  <!-- <form (ngSubmit)="onChange()" #loginForm></form> -->
 </div>

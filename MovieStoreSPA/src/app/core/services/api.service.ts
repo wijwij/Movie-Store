@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { MovieCardComponent } from 'src/app/shared/components/movie-card/movie-card.component';
-import { Movie } from 'src/app/shared/models/movie';
 
 // A service is a TypeScript class that has @Injectable decorator, will be used in DI
 @Injectable({
@@ -33,12 +31,12 @@ export class ApiService {
   create(endpoint: string, model: any): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}${endpoint}`, model)
-      .pipe(map((res) => res as any));
+      .pipe(catchError((error) => throwError(error.error)));
   }
   update(endpoint: string, model: any): Observable<any> {
     return this.http
       .put(`${environment.apiUrl}${endpoint}`, model)
-      .pipe(map((res) => res as any));
+      .pipe(catchError((error) => throwError(error.error)));
   }
   delete(endpoint: string, id: number): Observable<void> {
     return this.http.delete(`${environment.apiUrl}${endpoint}/${id}`).pipe(
