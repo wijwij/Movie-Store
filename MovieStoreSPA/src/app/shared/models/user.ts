@@ -1,10 +1,12 @@
-import { Movie } from './movie';
-
+// a map with the response token
 export interface User {
-  id: number;
+  nameid: number;
   email: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Date;
-  roles: string[];
+  exp: string;
+  alias: string;
+  family_name: string;
+  given_name: string;
+  isAdmin: boolean;
+  birthdate: Date;
+  role: Array<string>;
 }
