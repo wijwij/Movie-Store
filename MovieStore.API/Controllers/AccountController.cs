@@ -45,7 +45,7 @@ namespace MovieStore.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var user = await _userService.ValidateUser(model.Email, model.Password);
-            if (user == null) return Unauthorized();
+            if (user == null) return Unauthorized(new {errorMessage = "Invalid Credentials"});
             // return the JWT token
             return Ok(new {token = GenerateJWT(user)});
         }

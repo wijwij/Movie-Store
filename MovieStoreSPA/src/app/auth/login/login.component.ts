@@ -13,10 +13,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
+    // password should have at least 8 characters with at least one uppercase, one lowercase and one number
+    // But don't put these validation at the login form
     password: new FormControl('', Validators.required),
   });
   // use this property to display warning message in the UI
   invalidLogin: boolean;
+  errorMsg: string;
   // redirect to previous page after successful login
   returnUrl: string;
   // return object from web api
@@ -30,7 +33,10 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ToDo if user successfully login, return to the previous page.
+    // init return url
+  }
   /**
    * Two types of forms in angular
    *   1. Template driven forms - simple forms where form logic is not complex
@@ -41,17 +47,20 @@ export class LoginComponent implements OnInit {
    */
 
   onSubmit() {
-    this.login = { ...this.loginForm.value };
-    // send login model to auth.service.
-    this.authService.login(this.login).subscribe((response) => {
-      if (response) {
-        this.invalidLogin = false;
-        // decode the response and save to user object
-        this.router.navigate(['/']);
-      } else {
-        this.invalidLogin = true;
-        console.log('failed login');
-      }
-    });
+    if (this.loginForm.valid) {
+      this.login = { ...this.loginForm.value };
+
+      this.authService.login(this.login).subscribe(
+        (response) => {
+          if (response) this.invalidLogin = false;
+          // ToDo decode the response and save to user object
+          this.router.navigate(['/']);
+        },
+        (err) => {
+          this.invalidLogin = true;
+          this.errorMsg = err.error?.errorMessage;
+        }
+      );
+    }
   }
 }

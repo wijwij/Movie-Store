@@ -29,9 +29,7 @@ export class ApiService {
       .pipe(map((res) => res as any));
   }
   create(endpoint: string, model: any): Observable<any> {
-    return this.http
-      .post(`${environment.apiUrl}${endpoint}`, model)
-      .pipe(catchError((error) => throwError(error.error)));
+    return this.http.post(`${environment.apiUrl}${endpoint}`, model).pipe();
   }
   update(endpoint: string, model: any): Observable<any> {
     return this.http
