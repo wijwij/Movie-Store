@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.login).subscribe(
         (response) => {
           if (response) this.invalidLogin = false;
-          // ToDo decode the response and save to user object
           this.router.navigate(['/']);
         },
         (err) => {
