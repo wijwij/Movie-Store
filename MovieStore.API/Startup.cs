@@ -54,7 +54,10 @@ namespace MovieStore.API
                 var defaultAuthorizationPolicyBuilder =
                     new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
                 defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                // default authorization policy: just log in
                 options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+                // customize authorisation policy
+                // options.AddPolicy("Admin", policyBuilder => policyBuilder.RequireClaim("Admin").RequireClaim("EmployeeNumber"));
             });
             
             services.AddScoped<IMovieRepository, MovieRepository>();
