@@ -18,12 +18,14 @@ namespace MovieStore.MVC.Controllers
         private readonly IUserService _userService;
         private readonly IReviewService _reviewService;
         private readonly IPurchaseService _purchaseService;
+        private readonly ICurrentUserService _currentUserService;
 
-        public UserController(IUserService userService, IReviewService reviewService, IPurchaseService purchaseService)
+        public UserController(IUserService userService, IReviewService reviewService, IPurchaseService purchaseService, ICurrentUserService currentUserService)
         {
             _userService = userService;
             _reviewService = reviewService;
             _purchaseService = purchaseService;
+            _currentUserService = currentUserService;
         }
 
         public IActionResult Index()
@@ -34,8 +36,9 @@ namespace MovieStore.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Favorite(UserFavoriteRequestModel requestModel)
         {
-            var userId = Convert.ToInt32(HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            // var userId = Convert.ToInt32(HttpContext.User.Claims
+            //     .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var userId = _currentUserService.Id ?? 0;
             await _userService.FavoriteMovie(requestModel.MovieId, userId);
 
             return Redirect($"~/Movies/Details/{requestModel.MovieId}");
@@ -44,8 +47,9 @@ namespace MovieStore.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Unfavorite(UserFavoriteRequestModel requestModel)
         {
-            var userId = Convert.ToInt32(HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            // var userId = Convert.ToInt32(HttpContext.User.Claims
+            //     .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var userId = _currentUserService.Id ?? 0;
             await _userService.RemoveFavoriteMovie(requestModel.MovieId, userId);
 
             return Redirect($"~/Movies/Details/{requestModel.MovieId}");
@@ -71,8 +75,9 @@ namespace MovieStore.MVC.Controllers
         [HttpPost]
         public async Task Review(ReviewRequestModel requestModel)
         {
-            var userId = Convert.ToInt32(HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            // var userId = Convert.ToInt32(HttpContext.User.Claims
+            //     .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var userId = _currentUserService.Id ?? 0;
             requestModel.UserId = userId;
             await _reviewService.WriteReview(requestModel);
         }
@@ -90,8 +95,9 @@ namespace MovieStore.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Reviews()
         {
-            var userId = Convert.ToInt32(HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            // var userId = Convert.ToInt32(HttpContext.User.Claims
+            //     .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var userId = _currentUserService.Id ?? 0;
             var reviews = await _userService.GetUserReviewedMovies(userId);
             return View(reviews);
         }
@@ -99,8 +105,9 @@ namespace MovieStore.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Purchase(UserPurchaseRequestModel requestModel)
         {
-            var userId = Convert.ToInt32(HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            // var userId = Convert.ToInt32(HttpContext.User.Claims
+            //     .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var userId = _currentUserService.Id ?? 0;
             requestModel.UserId = userId;
             await _userService.PurchaseMovie(requestModel);
             return View();
@@ -108,8 +115,9 @@ namespace MovieStore.MVC.Controllers
 
         public async Task<IActionResult> Purchases()
         {
-            var userId = Convert.ToInt32(HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            // var userId = Convert.ToInt32(HttpContext.User.Claims
+            //     .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var userId = _currentUserService.Id ?? 0;
             var movies = await _purchaseService.GetAllPurchasedMovie(userId);
             return View(movies);
         }
