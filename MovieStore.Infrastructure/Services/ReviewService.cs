@@ -38,14 +38,11 @@ namespace MovieStore.Infrastructure.Services
             return await _reviewRepository.UpdateAsync(review);
         }
 
-        public async Task DeleteReview(ReviewRequestModel requestModel)
+        public async Task<bool> DeleteReview(int userId, int movieId)
         {
-            var review = new Review
-            {
-                UserId = requestModel.UserId, MovieId = requestModel.MovieId, Rating = requestModel.Rating,
-                ReviewText = requestModel.ReviewText
-            };
-            await _reviewRepository.DeleteAsync(review);
+            var review = await _reviewRepository.ListAsync(r => r.MovieId == movieId && r.UserId == userId);
+            var result = await _reviewRepository.DeleteAsync(review.FirstOrDefault());
+            return result > 0;
         }
     }
 }

@@ -92,17 +92,19 @@ namespace MovieStore.Infrastructure.Services
             return null;
         }
 
-        public async Task FavoriteMovie(int movieId, int userId)
+        public async Task<Favorite> FavoriteMovie(int movieId, int userId)
         {
+            var isLiked = await IsMovieFavoriteByUser(userId, movieId);
+            if (isLiked) return null;
             var favorite = new Favorite{MovieId = movieId, UserId = userId};
-            await _favoriteRepository.AddAsync(favorite);
+            return await _favoriteRepository.AddAsync(favorite);
         }
 
-        public async Task RemoveFavoriteMovie(int movieId, int userId)
+        public async Task<bool> RemoveFavoriteMovie(int movieId, int userId)
         {
-            var collection = await _favoriteRepository.ListAsync(f => f.MovieId == movieId && f.UserId == userId);
-            var favorite = collection.FirstOrDefault();
-            if(favorite != null) await _favoriteRepository.DeleteAsync(favorite);
+            var favorites = await _favoriteRepository.ListAsync(f => f.MovieId == movieId && f.UserId == userId);
+            var result = await _favoriteRepository.DeleteAsync(favorites.FirstOrDefault());
+            return result > 0;
         }
 
         public async Task<bool> IsMovieFavoriteByUser(int userId, int movieId)
@@ -111,7 +113,7 @@ namespace MovieStore.Infrastructure.Services
             return isFavorite;
         }
 
-        public async Task PurchaseMovie(UserPurchaseRequestModel requestModel)
+        public async Task<Purchase> PurchaseMovie(UserPurchaseRequestModel requestModel)
         {
             var purchase = new Purchase
             {
@@ -121,7 +123,8 @@ namespace MovieStore.Infrastructure.Services
                 TotalPrice = requestModel.Price,
                 PurchaseDateTime = requestModel.PurchaseTime
             };
-            await _purchaseRepository.AddAsync(purchase);
+            return await _purchaseRepository.GetExistsAsync(p =>
+                p.UserId == purchase.UserId && p.MovieId == purchase.MovieId) ? null : await _purchaseRepository.AddAsync(purchase);
         }
 
         public async Task<IEnumerable<Movie>> GetUserFavoriteMovies(int userId)

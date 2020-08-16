@@ -10,6 +10,6 @@ namespace MovieStore.Core.ServiceInterfaces
     {
         Task<Review> WriteReview(ReviewRequestModel requestModel);
         Task<Review> UpdateReview(ReviewRequestModel requestModel);
-        Task DeleteReview(ReviewRequestModel requestModel);
+        Task<bool> DeleteReview(int userId, int movieId);
     }
 }

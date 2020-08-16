@@ -16,27 +16,31 @@ namespace MovieStore.API.Controllers
         private readonly IUserService _userService;
         private readonly IReviewService _reviewService;
         private readonly IPurchaseService _purchaseService;
+        private readonly ICurrentUserService _currentUserService;
 
-        public UserController(IUserService userService, IReviewService reviewService, IPurchaseService purchaseService)
+        public UserController(IUserService userService, IReviewService reviewService, IPurchaseService purchaseService, ICurrentUserService currentUserService)
         {
             _userService = userService;
             _reviewService = reviewService;
             _purchaseService = purchaseService;
+            _currentUserService = currentUserService;
         }
 
         [HttpPost]
         [Route("purchase")]
         public async Task<IActionResult> PurchaseMovie([FromBody] UserPurchaseRequestModel model)
         {
-            await _userService.PurchaseMovie(model);
+            model.UserId = _currentUserService.Id ?? 0;
+            var purchase = await _userService.PurchaseMovie(model);
+            if (purchase == null) return BadRequest(new {msg = "You have already purchased the movie."});
             return Ok();
         }
         
         [HttpGet]
-        [Route("purchases/{id}")]
-        public async Task<IActionResult> GetUserPurchasedMovies([FromHeader] int userId)
+        [Route("purchases")]
+        public async Task<IActionResult> GetUserPurchasedMovies()
         {
-            // ToDo [refactor getting user identity]
+            var userId = _currentUserService.Id ?? 0;
             var purchases = await _purchaseService.GetAllPurchasedMovie(userId);
             return Ok(purchases);
         }
@@ -45,7 +49,9 @@ namespace MovieStore.API.Controllers
         [Route("favorite")]
         public async Task<IActionResult> FavoriteMovie([FromBody] UserFavoriteRequestModel model)
         {
-            await _userService.FavoriteMovie(model.MovieId, model.UserId);
+            model.UserId = _currentUserService.Id ?? 0;
+            var favorite = await _userService.FavoriteMovie(model.MovieId, model.UserId);
+            if (favorite == null) return BadRequest(new {msg = "You have already liked the movie."});
             return Ok();
         }
         
@@ -53,15 +59,16 @@ namespace MovieStore.API.Controllers
         [Route("unfavorite")]
         public async Task<IActionResult> UnFavoriteMovie([FromBody] UserFavoriteRequestModel model)
         {
-            await _userService.RemoveFavoriteMovie(model.MovieId, model.UserId);
-            return Ok();
+            var result = await _userService.RemoveFavoriteMovie(model.MovieId, model.UserId);
+            if (result) return Ok();
+            return BadRequest(new {msg = "You have not liked the movie."});
         }
 
         [HttpGet]
-        [Route("favorites/{id}")]
-        public async Task<IActionResult> GetUserFavoriteMovies(int id)
+        [Route("favorites")]
+        public async Task<IActionResult> GetUserFavoriteMovies()
         {
-            // ToDo [refactor getting user identity]
+            var id = _currentUserService.Id ?? 0;
             var movies = await _userService.GetUserFavoriteMovies(id);
             return Ok(movies);
         }
@@ -70,6 +77,7 @@ namespace MovieStore.API.Controllers
         [Route("leave/review")]
         public async Task<IActionResult> WriteReview([FromBody] ReviewRequestModel model)
         {
+            model.UserId = _currentUserService.Id ?? 0;
             var review = await _reviewService.WriteReview(model);
             return Ok(review);
         }
@@ -78,23 +86,25 @@ namespace MovieStore.API.Controllers
         [Route("update/review")]
         public async Task<IActionResult> UpdateReview(ReviewRequestModel model)
         {
+            model.UserId = _currentUserService.Id ?? 0;
             var review = await _reviewService.UpdateReview(model);
             return Ok(review);
         }
 
         [HttpDelete]
-        [Route("delete/review")]
-        public async Task<IActionResult> DeleteReview(ReviewRequestModel model)
+        [Route("delete/review/{movieId}")]
+        public async Task<IActionResult> DeleteReview([FromRoute] int movieId)
         {
-            await _reviewService.DeleteReview(model);
-            return Ok("The review has been deleted");
+            var result = await _reviewService.DeleteReview(_currentUserService.Id ?? 0, movieId);
+            if (!result) return BadRequest(new {msg = "You haven't ever leave a review."});
+            return Ok();
         }
         
         [HttpGet]
-        [Route("reviews/{id}")]
-        public async Task<IActionResult> GetUserReviewedMovies(int id)
+        [Route("reviews")]
+        public async Task<IActionResult> GetUserReviewedMovies()
         {
-            // ToDo [refactor getting user identity]
+            var id = _currentUserService.Id ?? 0;
             var reviews = await _userService.GetUserReviewedMovies(id);
             return Ok(reviews);
         }
@@ -108,9 +118,10 @@ namespace MovieStore.API.Controllers
         }
 
         [HttpGet]
-        [Route("profile/{id}")]
-        public async Task<IActionResult> GetUserProfile(int id)
+        [Route("profile")]
+        public async Task<IActionResult> GetUserProfile()
         {
+            var id = _currentUserService.Id ?? 0;
             var profile = await _userService.GetUserProfile(id);
             return Ok(profile);
         }

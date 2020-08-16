@@ -10,10 +10,10 @@ namespace MovieStore.Core.ServiceInterfaces
     {
         Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel requestModel);
         Task<LoginResponseModel> ValidateUser(string email, string password);
-        Task FavoriteMovie(int movieId, int userId);
-        Task RemoveFavoriteMovie(int movieId, int userId);
+        Task<Favorite> FavoriteMovie(int movieId, int userId);
+        Task<bool> RemoveFavoriteMovie(int movieId, int userId);
         Task<bool> IsMovieFavoriteByUser(int userId, int movieId);
-        Task PurchaseMovie(UserPurchaseRequestModel requestModel);
+        Task<Purchase> PurchaseMovie(UserPurchaseRequestModel requestModel);
         Task<IEnumerable<Movie>> GetUserFavoriteMovies(int userId);
         Task<IEnumerable<UserReviewedMovieResponseModel>> GetUserReviewedMovies(int userId);
         Task<bool> IsMovieReviewedByUser(int userId, int movieId);
