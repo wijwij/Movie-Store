@@ -32,7 +32,7 @@ namespace MovieStore.API.Controllers
         {
             model.UserId = _currentUserService.Id ?? 0;
             var purchase = await _userService.PurchaseMovie(model);
-            if (purchase == null) return BadRequest(new {msg = "You have already purchased the movie."});
+            if (purchase == null) return BadRequest(new {errorMessage = "You have already purchased the movie."});
             return Ok();
         }
         
@@ -51,7 +51,7 @@ namespace MovieStore.API.Controllers
         {
             model.UserId = _currentUserService.Id ?? 0;
             var favorite = await _userService.FavoriteMovie(model.MovieId, model.UserId);
-            if (favorite == null) return BadRequest(new {msg = "You have already liked the movie."});
+            if (favorite == null) return BadRequest(new {errorMessage = "You have already liked the movie."});
             return Ok();
         }
         
@@ -61,7 +61,7 @@ namespace MovieStore.API.Controllers
         {
             var result = await _userService.RemoveFavoriteMovie(model.MovieId, model.UserId);
             if (result) return Ok();
-            return BadRequest(new {msg = "You have not liked the movie."});
+            return BadRequest(new {errorMessage = "You haven't ever liked the movie."});
         }
 
         [HttpGet]
@@ -96,7 +96,7 @@ namespace MovieStore.API.Controllers
         public async Task<IActionResult> DeleteReview([FromRoute] int movieId)
         {
             var result = await _reviewService.DeleteReview(_currentUserService.Id ?? 0, movieId);
-            if (!result) return BadRequest(new {msg = "You haven't ever leave a review."});
+            if (!result) return BadRequest(new {errorMessage = "You haven't ever leave a review."});
             return Ok();
         }
         

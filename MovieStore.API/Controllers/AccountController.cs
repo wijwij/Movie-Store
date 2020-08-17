@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -31,11 +30,12 @@ namespace MovieStore.API.Controllers
         [Route("register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegisterRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.ValidationState);
             // when posting json data, make sure your json keys are identical with c# model properties.
             // case insensitive
             // in MVC, name of the input in HTML should be same as c# model properties 
             var user = await _userService.RegisterUser(model);
+            if (user == null) return Unauthorized(new {errorMessage = "Email address already exists. Please try to login"});
             return Ok(user);
         }
 
@@ -43,7 +43,7 @@ namespace MovieStore.API.Controllers
         [HttpPost]
         public async Task<IActionResult> ValidateUser([FromBody] LoginRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.ValidationState);
             var user = await _userService.ValidateUser(model.Email, model.Password);
             if (user == null) return Unauthorized(new {errorMessage = "Invalid Credentials"});
             // return the JWT token

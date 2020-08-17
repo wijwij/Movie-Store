@@ -20,7 +20,7 @@ namespace MovieStore.Core.Models.Request
         
         [Required]
         [StringLength(20, ErrorMessage = "Make sure password length is between 8 and 20", MinimumLength = 8)]
-        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,}$", ErrorMessage = "Password Should have minimum 8 with at least one upper, lower, number and special character")]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,}$", ErrorMessage = "Password should at least have one upper, lower, number and special character")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

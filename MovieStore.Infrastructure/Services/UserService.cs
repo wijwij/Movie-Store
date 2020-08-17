@@ -43,7 +43,8 @@ namespace MovieStore.Infrastructure.Services
             {
                 // ToDo [refactor ]
                 // Throw an exception if user exists.
-                throw new Exception("Email address already exists. Please try to login");
+                // throw new Exception("Email address already exists. Please try to login");
+                return null;
             }
 
             var salt = _cryptoService.GenerateSalt();
