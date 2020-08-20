@@ -72,7 +72,8 @@ namespace MovieStore.Infrastructure.Services
             if (user == null)
             {
                 // throw exception if user doesn't exist
-                throw new Exception("Please Register first");
+                // throw new Exception("Please Register first");
+                return null;
             }
 
             var hashedPassword = _cryptoService.HashPassword(password, user.Salt);
