@@ -11,6 +11,7 @@ namespace MovieStore.MVC.Helpers
     {
         private readonly RequestDelegate _next;
         // ASP.NET Core logging is builtin to the framework
+        // Create a logger specific to the MovieStoreExceptionMiddleware class so that the logger will display a message with context info, e.g. <AppName>.MovieStoreExceptionMiddleware[0].
         private readonly ILogger<MovieStoreExceptionMiddleware> _logger;
 
         public MovieStoreExceptionMiddleware(RequestDelegate next, ILogger<MovieStoreExceptionMiddleware> logger)
