@@ -16,6 +16,7 @@ namespace MovieStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Movie>> GetPurchasedMovieByUser(int userId)
         {
+            // Purchase entity can be updated, like user apply for refund.
             var movies = await _dbContext.Purchases.Where(p => p.UserId == userId).Include(p => p.Movie).Select(p => p.Movie).ToListAsync();
             return movies;
         }

@@ -18,6 +18,7 @@ namespace MovieStore.Infrastructure.Repositories
 
         public override async Task<IEnumerable<Review>> ListAsync(Expression<Func<Review, bool>> filter)
         {
+            // Review entity will probably be updated later.
             return await _dbContext.Reviews.Where(filter).Include(r => r.Movie).ToListAsync();
         }
 

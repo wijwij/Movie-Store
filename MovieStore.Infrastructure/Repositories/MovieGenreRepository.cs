@@ -19,15 +19,17 @@ namespace MovieStore.Infrastructure.Repositories
         
         public async Task<IEnumerable<Movie>> GetMoviesByGenreIdAsync(int genreId)
         {
+            // Eager loading will improve the query performance.
+            // ToDo [Add pagination]
             var movies = await _dbContext.MovieGenres.Where(mg => mg.GenreId == genreId).Include(mg => mg.Movie)
-                .Select(mg => mg.Movie).ToListAsync();
+                .Select(mg => mg.Movie).AsNoTracking().ToListAsync();
             return movies;
         }
 
         public async Task<IEnumerable<Genre>> GetGenresByMovieIdAsync(int movieId)
         {
             var genres = await _dbContext.MovieGenres.Where(mg => mg.MovieId == movieId).Include(mg => mg.Genre)
-                .Select(mg => mg.Genre).ToListAsync();
+                .Select(mg => mg.Genre).AsNoTracking().ToListAsync();
             return genres;
         }
     }

@@ -21,7 +21,7 @@ namespace MovieStore.Infrastructure.Repositories
         {
             var movie = await _dbContext.Movies.Where(m => m.Id == id).Include(m => m.MovieGenres).ThenInclude(mg => mg.Genre)
                 .Include(m => m.MovieCasts).ThenInclude(mc => mc.Cast)
-                .Include(m => m.Reviews).FirstOrDefaultAsync();
+                .Include(m => m.Reviews).AsNoTracking().FirstOrDefaultAsync();
             // populate the rating field.
             if(movie != null) movie.Rating = Decimal.Round(movie.Reviews.Average(r => r.Rating), 2);
             return movie;
@@ -29,7 +29,7 @@ namespace MovieStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Movie>> GetHighestRevenueMovies()
         {
-            var movies = await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(25).Select(m => new Movie {Id = m.Id, PosterUrl = m.PosterUrl, Title = m.Title}).ToListAsync();
+            var movies = await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(25).Select(m => new Movie {Id = m.Id, PosterUrl = m.PosterUrl, Title = m.Title}).AsNoTracking().ToListAsync();
             return movies;
         }
 
@@ -38,7 +38,7 @@ namespace MovieStore.Infrastructure.Repositories
             // ToDo [make a comparison between two approaches]
             var collections = await _dbContext.Movies.Include(m => m.Reviews).Select(m => new Movie{Id = m.Id, PosterUrl = m.PosterUrl, Title = m.Title, Rating = m.Reviews.Average(r => r.Rating)})
                 .OrderByDescending(m => m.Rating)
-                .Take(25).ToListAsync();
+                .Take(25).AsNoTracking().ToListAsync();
 
             // var movies = await _dbContext.Reviews.Include(r => r.Movie)
             //     .GroupBy(r => new {r.Movie.Id, r.Movie.PosterUrl, r.Movie.Title})
