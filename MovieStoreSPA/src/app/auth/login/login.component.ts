@@ -4,6 +4,7 @@ import { User } from 'src/app/shared/models/user';
 import { Login } from 'src/app/shared/models/login';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private activatedRouter: ActivatedRoute,
+    private route: ActivatedRoute,
     // redirect between pages
     private router: Router
   ) {}
@@ -36,6 +37,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     // ToDo if user successfully login, return to the previous page.
     // init return url
+    console.log('ping from ngOnInit...');
+    this.route.parent.url
+      .pipe(map((segments) => segments.join('')))
+      .subscribe((res) => {
+        this.returnUrl = res;
+        console.log(this.returnUrl);
+      });
   }
   /**
    * Two types of forms in angular
@@ -52,12 +60,18 @@ export class LoginComponent implements OnInit {
 
       this.authService.login(this.login).subscribe(
         (response) => {
-          if (response) this.invalidLogin = false;
-          this.router.navigate(['/']);
+          if (response) {
+            console.log('ping from successfully log in...');
+            this.invalidLogin = false;
+            // ToDo [navigate to the previous url]
+            this.router.navigate(['/']);
+          }
         },
         (err) => {
+          // Display error message from server side.
+          this.errorMsg = err.errorMessage;
           this.invalidLogin = true;
-          this.errorMsg = err.error?.errorMessage;
+          setTimeout(() => (this.invalidLogin = false), 7000);
         }
       );
     }
