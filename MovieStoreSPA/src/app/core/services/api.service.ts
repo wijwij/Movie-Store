@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -10,8 +14,12 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ApiService {
+  private headers;
   // Injecting HttpClient
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) {
+    this.headers = new HttpHeaders();
+    this.headers.append('Content-Type', 'application/json');
+  }
   // ToDo [question: why use Observable]
   getAll(endpoint: string): Observable<any[]> {
     // don't work with JSON directly, instead working with strongly typed object
@@ -24,23 +32,31 @@ export class ApiService {
     );
     // map: select, filter: where
   }
+
   getOne(endpoint: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}${endpoint}`).pipe(
       map((res) => res as any),
       catchError(this.handleError)
     );
   }
+
   create(endpoint: string, model: any): Observable<any> {
-    return this.http.post(`${environment.apiUrl}${endpoint}`, model).pipe(
-      map((res) => res as any),
-      catchError(this.handleError)
-    );
+    return this.http
+      .post(`${environment.apiUrl}${endpoint}`, model, {
+        headers: this.headers,
+      })
+      .pipe(
+        map((res) => res as any),
+        catchError(this.handleError)
+      );
   }
+
   update(endpoint: string, model: any): Observable<any> {
     return this.http
       .put(`${environment.apiUrl}${endpoint}`, model)
       .pipe(catchError((error) => throwError(error.error)));
   }
+
   delete(endpoint: string, id: number): Observable<void> {
     return this.http.delete(`${environment.apiUrl}${endpoint}/${id}`).pipe(
       map((response) => {
