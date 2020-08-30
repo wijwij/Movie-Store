@@ -16,6 +16,7 @@ export class AuthService {
     private apiService: ApiService,
     private jwtStorage: JwtStorageService
   ) {}
+
   register(model: SignUp): Observable<User> {
     return this.apiService.create('account/register', model);
   }
@@ -31,6 +32,10 @@ export class AuthService {
       })
       // Migrate catch failed http response error to the api service.
     );
+  }
+
+  logout() {
+    this.jwtStorage.destroyToken();
   }
 
   populateUserInfo() {
