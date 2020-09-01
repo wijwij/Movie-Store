@@ -94,6 +94,12 @@ namespace MovieStore.Infrastructure.Services
             return null;
         }
 
+        public async Task<bool> UserExistByEmail(string email)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email);
+            return user != null;
+        }
+
         public async Task<Favorite> FavoriteMovie(int movieId, int userId)
         {
             var isLiked = await IsMovieFavoriteByUser(userId, movieId);

@@ -50,6 +50,14 @@ namespace MovieStore.API.Controllers
             return Ok(new {token = GenerateJWT(user)});
         }
 
+        [HttpGet]
+        [Route("exist")]
+        public async Task<IActionResult> AccountExist([FromQuery] string email)
+        {
+            var exist = await _userService.UserExistByEmail(email);
+            return Ok(new {emailExist = exist});
+        }
+        
         private string GenerateJWT(LoginResponseModel payload)
         {
             var claims = new List<Claim>
