@@ -1,4 +1,4 @@
-// a map with the response token
+// a map to the response token
 export interface User {
   nameid: number;
   email: string;

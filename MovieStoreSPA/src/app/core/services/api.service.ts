@@ -3,7 +3,6 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
-  HttpParams,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -41,15 +40,25 @@ export class ApiService {
   ): Observable<any> {
     if (pathParams) endpoint += `/${pathParams}`;
 
-    let params = new HttpParams();
+    // Dont use HttpParams because HttpParams is immutable and all mutation return a new instance
+    // let params = new HttpParams();
+    // if (queryParams) {
+    //   queryParams.forEach((value: string, key: string) => {
+    //     console.log(`${key}, ${value}`);
+    //     // Bug without assignment because HttpParams is immutable and all mutation return a new instance
+    //     params = params.append(key, value);
+    //   });
+    // }
+
+    let paramsObject = {};
     if (queryParams) {
       queryParams.forEach((value: string, key: string) => {
-        params.append(key, value);
+        paramsObject[key] = value;
       });
     }
 
     return this.http
-      .get(`${environment.apiUrl}${endpoint}`, { params: params })
+      .get(`${environment.apiUrl}${endpoint}`, { params: paramsObject })
       .pipe(
         map((res) => res as any),
         catchError(this.handleError)
