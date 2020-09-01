@@ -2,17 +2,16 @@
   <h1 className="large text-primary">Register your Account</h1>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="formGroupExampleInput">Email</label>
+      <label>Email</label>
       <input
         type="email"
         class="form-control"
         placeholder="Email Address"
         formControlName="email"
-        required
       />
     </div>
     <div class="form-group">
-      <label for="formGroupExampleInput2">First Name</label>
+      <label>First Name</label>
       <input
         type="text"
         class="form-control"
@@ -21,7 +20,7 @@
       />
     </div>
     <div class="form-group">
-      <label for="formGroupExampleInput2">Last Name</label>
+      <label>Last Name</label>
       <input
         type="text"
         class="form-control"
@@ -30,24 +29,20 @@
       />
     </div>
     <div class="form-group">
-      <label for="formGroupExampleInput2">Password</label>
+      <label>Password</label>
       <input
         type="password"
         class="form-control"
-        placeholder="Please enter your password..."
+        placeholder="Password"
         formControlName="password"
       />
-      <small className="text-black-50">
+      <small class="text-black-50">
         Password should be longer than 8 characters with at least one number,
         one upper case letter and one special sign.
       </small>
     </div>
     <div class="form-group">
-      <button
-        type="submit"
-        [disabled]="registerForm.invalid"
-        class="btn btn-primary"
-      >
+      <button type="submit" class="btn btn-primary">
         Register
       </button>
     </div>
