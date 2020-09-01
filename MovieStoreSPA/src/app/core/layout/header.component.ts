@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/shared/models/user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   public isMenuCollapsed = true;
-  constructor() {}
+  currentUser: User;
+  isAuthenticated: boolean;
 
-  ngOnInit(): void {}
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    // Subscribe to the currentUserSubject in the auth service
+    this.authService.isAuthenticatedSubject.subscribe((auth) => {
+      this.isAuthenticated = auth;
+      if (this.isAuthenticated) {
+        this.currentUser = this.authService.getCurrentUser();
+      }
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }
