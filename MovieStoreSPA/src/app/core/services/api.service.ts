@@ -3,6 +3,7 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
+  HttpParams,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -33,11 +34,26 @@ export class ApiService {
     // map: select, filter: where
   }
 
-  getOne(endpoint: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}${endpoint}`).pipe(
-      map((res) => res as any),
-      catchError(this.handleError)
-    );
+  getOne(
+    endpoint: string,
+    pathParams?: string,
+    queryParams?: Map<any, any>
+  ): Observable<any> {
+    if (pathParams) endpoint += `/${pathParams}`;
+
+    let params = new HttpParams();
+    if (queryParams) {
+      queryParams.forEach((value: string, key: string) => {
+        params.append(key, value);
+      });
+    }
+
+    return this.http
+      .get(`${environment.apiUrl}${endpoint}`, { params: params })
+      .pipe(
+        map((res) => res as any),
+        catchError(this.handleError)
+      );
   }
 
   create(endpoint: string, model: any): Observable<any> {
