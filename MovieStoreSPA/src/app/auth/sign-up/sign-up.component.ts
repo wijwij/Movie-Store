@@ -29,31 +29,36 @@ export class SignUpComponent implements OnInit {
     ]),
   });
   */
-  registerForm = this.fb.group({
-    email: [
-      '',
-      {
-        validators: [Validators.required, Validators.email],
-        asyncValidators: this.validatorService.emailExistsValidator(),
-        // Optimize the async validator by changing updateOn property to blur or submit
-        // Because the default property is change, so it will dispatch a HTTP request after every keystroke i
-        updateOn: 'blur',
-      },
-    ],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    password: [
-      '',
-      [
-        Validators.minLength(8),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,}'
-        ),
+  registerForm = this.fb.group(
+    {
+      email: [
+        '',
+        {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: this.validatorService.emailExistsValidator(),
+          // Optimize the async validator by changing updateOn property to blur or submit
+          // Because the default property is change, so it will dispatch a HTTP request after every keystroke i
+          updateOn: 'blur',
+        },
       ],
-    ],
-    confirmPassword: ['', Validators.required],
-    // ToDo Validate password === confirmPassword
-  });
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      password: [
+        '',
+        [
+          Validators.minLength(8),
+          Validators.pattern(
+            '(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,}'
+          ),
+        ],
+      ],
+      confirmPassword: ['', Validators.required],
+    },
+    { validators: this.validatorService.passwordMatchValidator() }
+  );
+
+  errorMsg = 'Register failed...Please try again...';
+  inValidRegister: boolean;
 
   constructor(
     private authService: AuthService,
@@ -65,10 +70,19 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log(this.registerForm.value);
-    this.authService.register(this.registerForm.value).subscribe(() => {
-      console.log('Successfully register...redirect to login');
-      this.router.navigate(['/login']);
-    });
+    if (this.registerForm.valid) {
+      this.authService.register(this.registerForm.value).subscribe(
+        (res) => {
+          if (res) {
+            this.router.navigate(['/login']);
+          }
+        },
+        (err) => {
+          this.inValidRegister = true;
+          setTimeout(() => (this.inValidRegister = false), 6000);
+          console.log(`Register failed. Error message: ${err}`);
+        }
+      );
+    }
   }
 }
