@@ -35,21 +35,20 @@ namespace MovieStore.Infrastructure.Repositories
 
         public async Task<IEnumerable<Movie>> GetHighestRatedMovies()
         {
-            // ToDo [make a comparison between two approaches]
-            var collections = await _dbContext.Movies.Include(m => m.Reviews).Select(m => new Movie{Id = m.Id, PosterUrl = m.PosterUrl, Title = m.Title, Rating = m.Reviews.Average(r => r.Rating)})
-                .OrderByDescending(m => m.Rating)
-                .Take(25).AsNoTracking().ToListAsync();
+            // var collections = await _dbContext.Movies.Include(m => m.Reviews).Select(m => new Movie{Id = m.Id, PosterUrl = m.PosterUrl, Title = m.Title, Rating = m.Reviews.Average(r => r.Rating)})
+            //     .OrderByDescending(m => m.Rating)
+            //     .Take(25).AsNoTracking().ToListAsync();
 
-            // var movies = await _dbContext.Reviews.Include(r => r.Movie)
-            //     .GroupBy(r => new {r.Movie.Id, r.Movie.PosterUrl, r.Movie.Title})
-            //     .OrderByDescending(g => g.Average(r => r.Rating))
-            //     .Select(m => new Movie
-            //     {
-            //         Id = m.Key.Id,
-            //         PosterUrl = m.Key.PosterUrl,
-            //         Title = m.Key.Title,
-            //         Rating = m.Average(r => r.Rating)
-            //     }).Take(25).ToListAsync();
+            var collections = await _dbContext.Reviews.Include(r => r.Movie)
+                .GroupBy(r => new {r.Movie.Id, r.Movie.PosterUrl, r.Movie.Title})
+                .OrderByDescending(g => g.Average(r => r.Rating))
+                .Select(m => new Movie
+                {
+                    Id = m.Key.Id,
+                    PosterUrl = m.Key.PosterUrl,
+                    Title = m.Key.Title,
+                    Rating = m.Average(r => r.Rating)
+                }).Take(25).ToListAsync();
             return collections;
         }
 
