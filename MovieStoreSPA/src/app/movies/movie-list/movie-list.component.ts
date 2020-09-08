@@ -24,8 +24,8 @@ export class MovieListComponent implements OnInit {
       // send request
       this.movieService.getMoviesByGenre(this.genreId).subscribe((movies) => {
         this.movies = movies;
-        console.log(`${this.genreId}`);
-        console.table(this.movies);
+        // console.log(`${this.genreId}`);
+        // console.table(this.movies);
       });
     });
   }
