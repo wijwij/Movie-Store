@@ -8,6 +8,7 @@ import { MovieListComponent } from './movies/movie-list/movie-list.component';
 import { FavoritesComponent } from './account/favorites/favorites.component';
 import { PurchasesComponent } from './account/purchases/purchases.component';
 import { ProfileComponent } from './account/profile/profile.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,16 +29,22 @@ const routes: Routes = [
     component: MovieListComponent,
   },
   {
-    path: 'user/favorite',
-    component: FavoritesComponent,
-  },
-  {
-    path: 'user/purchase',
-    component: PurchasesComponent,
-  },
-  {
-    path: 'user/profile',
-    component: ProfileComponent,
+    path: 'user',
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: 'favorite',
+        component: FavoritesComponent,
+      },
+      {
+        path: 'purchase',
+        component: PurchasesComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+      },
+    ],
   },
 ];
 

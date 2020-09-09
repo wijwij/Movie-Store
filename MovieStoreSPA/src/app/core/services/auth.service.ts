@@ -50,7 +50,7 @@ export class AuthService {
     this.isAuthenticatedSubject.next(false);
   }
 
-  decodeToken(encodedToken: string): User {
+  private decodeToken(encodedToken: string): User {
     // decode the token
     const helperService = new JwtHelperService();
     if (!encodedToken || helperService.isTokenExpired(encodedToken)) {
@@ -68,7 +68,8 @@ export class AuthService {
       const decodedToken = this.decodeToken(token);
 
       this.currentUserSubject.next(decodedToken);
-      this.isAuthenticatedSubject.next(true);
+      if (decodedToken) this.isAuthenticatedSubject.next(true);
+      else this.isAuthenticatedSubject.next(false);
     }
   }
 
