@@ -16,14 +16,21 @@ import { map, catchError } from 'rxjs/operators';
 export class AuthGuard implements CanActivateChild {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivateChild(): Observable<boolean | UrlTree> {
+  canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
     // BUG. the `isAuthenticatedSubject` is a subject, so convert it to observalbe at first.
     return this.authService.isAuthenticatedSubject.asObservable().pipe(
       map((auth) => {
         if (auth) return true;
         else {
-          // ToDo set return url
-          this.router.navigate(['/login']);
+          // console.log(`The return url is ${state.url} got from RouterStateSanpshot`);
+
+          // Set return url
+          this.router.navigate(['/login'], {
+            queryParams: { returnUrl: state.url },
+          });
           return false;
         }
       }),
