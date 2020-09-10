@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // import 3-rd parth libraries
 import { AppComponent } from './app.component';
@@ -28,6 +28,7 @@ import { FavoritesComponent } from './account/favorites/favorites.component';
 import { PurchasesComponent } from './account/purchases/purchases.component';
 import { ProfileComponent } from './account/profile/profile.component';
 import { OverviewPipe } from './shared/pipes/overview.pipe';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 // Decorators are like attribute in c#, @NgModule includes the metadata object
 @NgModule({
@@ -64,7 +65,13 @@ import { OverviewPipe } from './shared/pipes/overview.pipe';
     FormsModule,
   ],
   // Dependency injection
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   // We can select which component needs to be started when app starts.
   bootstrap: [AppComponent],
 })
