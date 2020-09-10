@@ -3,16 +3,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-// import 3-rd parth libraries
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { GenresComponent } from './genres/genres.component';
-import { HeaderComponent } from './core/layout/header.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignUpComponent } from './auth/sign-up/sign-up.component';
-import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
-import { MovieCardComponent } from './shared/components/movie-card/movie-card.component';
 
+// import 3-rd parth libraries
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   NgbCarouselModule,
@@ -23,6 +15,15 @@ import {
   NgbTabsetModule,
   NgbAlertModule,
 } from '@ng-bootstrap/ng-bootstrap';
+
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { GenresComponent } from './genres/genres.component';
+import { HeaderComponent } from './core/layout/header.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
+import { MovieCardComponent } from './shared/components/movie-card/movie-card.component';
 import { MovieListComponent } from './movies/movie-list/movie-list.component';
 import { FavoritesComponent } from './account/favorites/favorites.component';
 import { PurchasesComponent } from './account/purchases/purchases.component';
