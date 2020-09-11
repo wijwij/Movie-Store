@@ -55,11 +55,11 @@ namespace MovieStore.API.Controllers
             return Ok();
         }
         
-        [HttpPost]
-        [Route("unfavorite")]
-        public async Task<IActionResult> UnFavoriteMovie([FromBody] UserFavoriteRequestModel model)
+        [HttpDelete]
+        [Route("unfavorite/{movieId}")]
+        public async Task<IActionResult> UnFavoriteMovie([FromRoute] int movieId)
         {
-            var result = await _userService.RemoveFavoriteMovie(model.MovieId, model.UserId);
+            var result = await _userService.RemoveFavoriteMovie(movieId, _currentUserService.Id ?? 0);
             if (result) return Ok();
             return BadRequest(new {errorMessage = "You haven't ever liked the movie."});
         }
