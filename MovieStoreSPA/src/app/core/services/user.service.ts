@@ -15,24 +15,19 @@ export class UserService {
   constructor(private apiService: ApiService) {}
 
   getFavoriteMovies(): Observable<Movie[]> {
-    // hard-coded user id, later will be replaced by getting authentication from JWT
-    this.userId = 1889;
-    return this.apiService.getAll(`user/favorites/${this.userId}`);
+    return this.apiService.getAll(`user/favorites`);
   }
 
   getPurchasedMovies(): Observable<Movie[]> {
-    this.userId = 1889;
-    return this.apiService.getAll(`user/purchases/${this.userId}`);
+    return this.apiService.getAll(`user/purchases`);
   }
 
   getReviewedMovies(): Observable<Movie[]> {
-    this.userId = 1889;
-    return this.apiService.getAll(`user/reviews/${this.userId}`);
+    return this.apiService.getAll(`user/reviews`);
   }
 
   getProfile(): Observable<User> {
-    this.userId = 1889;
-    return this.apiService.getOne(`user/profile/${this.userId}`);
+    return this.apiService.getOne(`user/profile`);
   }
 
   checkEmailExist(email: string): Observable<boolean> {
