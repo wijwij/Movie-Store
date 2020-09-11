@@ -12,11 +12,13 @@ namespace MovieStore.API.Controllers
     {
         private readonly IMovieService _movieService;
         private readonly IMovieGenreService _movieGenreService;
+        private readonly ICurrentUserService _currentUserService;
 
-        public MoviesController(IMovieService movieService, IMovieGenreService movieGenreService)
+        public MoviesController(IMovieService movieService, IMovieGenreService movieGenreService, ICurrentUserService currentUserService)
         {
             _movieService = movieService;
             _movieGenreService = movieGenreService;
+            _currentUserService = currentUserService;
         }
 
         [HttpGet]
@@ -42,7 +44,7 @@ namespace MovieStore.API.Controllers
         [Route("details/{id}")]
         public async Task<IActionResult> GetMovieDetailById([FromRoute] int id)
         {
-            var movie = await _movieService.GetMovieById(id);
+            var movie = await _movieService.GetMovieById(id, _currentUserService.Id);
             return Ok(movie);
         }
 
