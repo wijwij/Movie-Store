@@ -30,19 +30,21 @@
     <!-- User Action Section -->
     <div class="col-3 pt-4 mt-5">
       <div class="row">
-        <form *ngIf="movie.isFavoriteByUser" method="post">
-          <input type="hidden" [value]="movie.id" name="MovieId" />
-          <button type="submit" class="btn btn-outline-light mb-3">
-            <a><i class="fas fa-heart"></i>&nbsp; Remove Favorite</a>
-          </button>
-        </form>
+        <button
+          *ngIf="movie.isFavoriteByUser"
+          class="btn btn-outline-light mb-3"
+          (click)="toggleFavorite(movie.id)"
+        >
+          <a><i class="fas fa-heart"></i>&nbsp; Remove Favorite</a>
+        </button>
 
-        <form *ngIf="!movie.isFavoriteByUser" method="post">
-          <input type="hidden" [value]="movie.id" name="MovieId" />
-          <button type="submit" class="btn btn-outline-light mb-3">
-            <a><i class="far fa-heart"></i>&nbsp; Favorite</a>
-          </button>
-        </form>
+        <button
+          *ngIf="!movie.isFavoriteByUser"
+          class="btn btn-outline-light mb-3"
+          (click)="toggleFavorite(movie.id)"
+        >
+          <a><i class="far fa-heart"></i>&nbsp; Favorite</a>
+        </button>
       </div>
 
       <ng-template #content let-modal>
@@ -114,7 +116,7 @@
         <a
           *ngIf="movie.isPurchasedByUser"
           class="btn btn-block btn-outline-light"
-          ><i class="fas fa-video"></i>&nbsp; WATCH</a
+          ><i class="fas fa-film"></i>&nbsp; WATCH</a
         >
 
         <form

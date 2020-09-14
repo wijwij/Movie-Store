@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Movie } from 'src/app/shared/models/movie';
+import { Favorite } from 'src/app/shared/models/favorite';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user';
 import { map } from 'rxjs/operators';
@@ -28,6 +29,18 @@ export class UserService {
 
   getProfile(): Observable<User> {
     return this.apiService.getOne(`user/profile`);
+  }
+
+  favoriteMovie(model: Favorite): Observable<boolean> {
+    return this.apiService.create('user/favorite', model);
+  }
+
+  removeFavorite(movieId: number): Observable<boolean> {
+    return this.apiService.delete('user/unfavorite', movieId).pipe(
+      map(() => {
+        return true;
+      })
+    );
   }
 
   checkEmailExist(email: string): Observable<boolean> {

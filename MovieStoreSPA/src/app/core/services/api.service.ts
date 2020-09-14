@@ -82,7 +82,7 @@ export class ApiService {
       .pipe(catchError((error) => throwError(error.error)));
   }
 
-  delete(endpoint: string, id: number): Observable<void> {
+  delete(endpoint: string, id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}${endpoint}/${id}`).pipe(
       map((response) => {
         response;

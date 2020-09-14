@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Movie } from 'src/app/shared/models/movie';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -16,6 +17,7 @@ export class MovieDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
+    private userService: UserService,
     private modalService: NgbModal
   ) {}
 
@@ -24,9 +26,35 @@ export class MovieDetailsComponent implements OnInit {
       this.movieId = +r.get('id');
       this.movieService.getMovieDetailById(this.movieId).subscribe((movie) => {
         this.movie = movie;
-        console.log(this.movie);
       });
     });
+  }
+
+  toggleFavorite(movieId: number): void {
+    if (!this.movie.isFavoriteByUser) {
+      // ToDo [question? Whether to pass user id along with the model]
+      var model = { movieId: movieId, userId: 0 };
+
+      this.userService.favoriteMovie(model).subscribe({
+        next: () => {
+          this.movie.isFavoriteByUser = !this.movie.isFavoriteByUser;
+          // console.log(this.movie);
+        },
+        error: () => {
+          console.log(`Failed to favorite the movie...`);
+        },
+      });
+    } else {
+      this.userService.removeFavorite(movieId).subscribe({
+        next: () => {
+          this.movie.isFavoriteByUser = !this.movie.isFavoriteByUser;
+          // console.log(this.movie);
+        },
+        error: () => {
+          console.log(`Failed to unlike the movie...`);
+        },
+      });
+    }
   }
 
   leaveReview(content) {
