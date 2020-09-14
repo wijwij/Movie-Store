@@ -108,29 +108,26 @@
         </button>
       </div>
       <div class="row">
-        <a class="btn btn-block btn-outline-light mb-3"
-          ><i class="fas fa-play"></i> WATCH TRAILER</a
-        >
+        <button class="btn btn-block btn-outline-light mb-3">
+          <i class="fas fa-play"></i> WATCH TRAILER
+        </button>
       </div>
       <div class="row">
-        <a
+        <button
           *ngIf="movie.isPurchasedByUser"
           class="btn btn-block btn-outline-light"
-          ><i class="fas fa-film"></i>&nbsp; WATCH</a
         >
+          <i class="fas fa-film"></i>&nbsp; WATCH
+        </button>
 
-        <form
+        <button
           *ngIf="!movie.isPurchasedByUser"
-          class="container-fluid px-0"
-          method="post"
+          (click)="purchaseMovie(movie.id, movie.price)"
+          class="btn btn-block btn-outline-light"
         >
-          <input type="hidden" name="MovieId" [value]="movie.id" />
-          <input type="hidden" name="Price" [value]="movie.price" />
-          <button type="submit" class="btn btn-block btn-outline-light">
-            <i class="fas fa-shopping-cart"></i>&nbsp; BUY &nbsp;
-            {{ movie.price | currency }}
-          </button>
-        </form>
+          <i class="fas fa-shopping-cart"></i>&nbsp; BUY &nbsp;
+          {{ movie.price | currency }}
+        </button>
       </div>
     </div>
   </div>

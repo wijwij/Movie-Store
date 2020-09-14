@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Movie } from 'src/app/shared/models/movie';
 import { Favorite } from 'src/app/shared/models/favorite';
+import { Purchase } from 'src/app/shared/models/purchase';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user';
 import { map } from 'rxjs/operators';
@@ -41,6 +42,13 @@ export class UserService {
         return true;
       })
     );
+  }
+
+  purchaseMovie(movieId: number, price: number): Observable<Purchase> {
+    return this.apiService.create('user/purchase', {
+      movieId: movieId,
+      price: price,
+    });
   }
 
   checkEmailExist(email: string): Observable<boolean> {

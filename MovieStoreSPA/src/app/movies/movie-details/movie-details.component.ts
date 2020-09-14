@@ -57,6 +57,17 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
+  purchaseMovie(movieId: number, price: number): void {
+    this.userService.purchaseMovie(movieId, price).subscribe(
+      () => {
+        this.movie.isPurchasedByUser = !this.movie.isPurchasedByUser;
+      },
+      () => {
+        console.log(`Failed to purchase the movie`);
+      }
+    );
+  }
+
   leaveReview(content) {
     this.modalService.open(content, { size: 'lg' });
   }
