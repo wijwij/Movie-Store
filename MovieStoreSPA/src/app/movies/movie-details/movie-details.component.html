@@ -47,7 +47,7 @@
         </button>
       </div>
 
-      <ng-template #content let-modal>
+      <ng-template #reviewbox let-modal>
         <div class="modal-header">
           <h4 class="modal-title">Leave a Review</h4>
           <button
@@ -59,50 +59,27 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form method="post">
-          <div class="modal-body text-dark">
-            <div class="form-group">
-              <label>Review</label>
-              <input
-                type="text"
-                class="form-control"
-                name="ReviewText"
-                placeholder="Please leave a review with no longer than 280 characters..."
-              />
-            </div>
-            <div class="form-group">
-              <label>Rating: 0 - 10</label>
-              <input
-                type="range"
-                class="custom-range"
-                min="0"
-                max="10"
-                step="1"
-                name="Rating"
-              />
-            </div>
-            <input type="hidden" [value]="movie.id" name="MovieId" />
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-              (click)="modal.close('Close click')"
-            >
-              Cancel
-            </button>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
-        <!-- <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-          </div> -->
+
+        <div class="modal-body">
+          <p>Test Body</p>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            (click)="modal.close('Close click')"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-info">Submit</button>
+        </div>
       </ng-template>
+
       <div class="row">
         <button
           class="btn btn-block btn-outline-light mb-3"
-          (click)="leaveReview(content)"
+          (click)="openReview(reviewbox)"
         >
           <i class="fas fa-edit"></i>&nbsp; Leave a Review
         </button>
