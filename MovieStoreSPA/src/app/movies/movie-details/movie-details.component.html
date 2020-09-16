@@ -8,22 +8,22 @@
     <!-- Movie Overview -->
     <div class="col-6 card bg-dark text-light pt-3 mt-4 border-dark">
       <h2 class="card-title">{{ movie.title }}</h2>
-      <h6 class="card-subtitle mb-2 text-muted">
+      <h3 class="card-subtitle mb-2 text-muted">
         <p>{{ movie.tagline }}</p>
-      </h6>
-      <h6 class="card-subtitle mb-2 text-muted">
+      </h3>
+      <h4 class="card-subtitle mb-2 text-muted">
         {{ movie.runTime }} m | {{ movie.createdDate | date: "mediumDate" }}
-      </h6>
-      <h6 class="card-subtitle mb-2 pt-2">
+      </h4>
+      <h4 class="card-subtitle mb-2 pt-2">
         <span class="badge badge-warning">{{ movie.rating }} </span>
-      </h6>
-      <h6 class="card-subtitle mb-2 pt-2">
+      </h4>
+      <h4 class="card-subtitle mb-2 pt-2">
         <span *ngFor="let genre of movie.genres" class="badge badge-light mr-1">
           <a [routerLink]="['/movies/genres', genre.id]" class="text-secondary">
             {{ genre.name }}
           </a>
         </span>
-      </h6>
+      </h4>
       <p class="card-body">{{ movie.overview | overview }}</p>
     </div>
 
