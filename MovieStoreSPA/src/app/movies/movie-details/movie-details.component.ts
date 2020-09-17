@@ -5,6 +5,7 @@ import { MovieService } from 'src/app/core/services/movie.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from 'src/app/core/services/user.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { Review } from 'src/app/shared/models/review';
 
 @Component({
   selector: 'app-movie-details',
@@ -15,6 +16,7 @@ export class MovieDetailsComponent implements OnInit {
   movieId: number;
   movie: Movie;
   isAuthenticated: boolean;
+  review: Review;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +32,15 @@ export class MovieDetailsComponent implements OnInit {
       this.movieId = +r.get('id');
       this.movieService.getMovieDetailById(this.movieId).subscribe((movie) => {
         this.movie = movie;
+      });
+
+      this.userService.getReview(this.movieId).subscribe((res) => {
+        if (res) {
+          this.review = { ...res };
+        } else {
+          this.review = null;
+        }
+        console.log(`current user's review status: ${this.review?.reviewText}`);
       });
     });
 
@@ -95,5 +106,15 @@ export class MovieDetailsComponent implements OnInit {
       size: 'sm',
       centered: true,
     });
+  }
+
+  submitReview(reviewText: string, rating: number) {
+    if (this.review) {
+      console.log(`updating the review....`);
+      this.userService.updateReview(this.movieId, reviewText, rating);
+    } else {
+      console.log(`creating the review....`);
+      this.userService.createReview(this.movieId, reviewText, rating);
+    }
   }
 }

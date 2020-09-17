@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Movie } from 'src/app/shared/models/movie';
 import { Favorite } from 'src/app/shared/models/favorite';
 import { Purchase } from 'src/app/shared/models/purchase';
-import { Observable } from 'rxjs';
+import { Review } from 'src/app/shared/models/review';
 import { User } from 'src/app/shared/models/user';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,34 @@ export class UserService {
     return this.apiService.create('user/purchase', {
       movieId: movieId,
       price: price,
+    });
+  }
+
+  getReview(movieId: number): Observable<Review> {
+    return this.apiService.getOne('user/review', `${movieId}`, null);
+  }
+
+  createReview(
+    movieId: number,
+    reviewText: string,
+    rating: number
+  ): Observable<Review> {
+    return this.apiService.create('user/leave/review', {
+      MovieId: movieId,
+      ReviewText: reviewText,
+      Rating: rating,
+    });
+  }
+
+  updateReview(
+    movieId: number,
+    reviewText: string,
+    rating: number
+  ): Observable<Review> {
+    return this.apiService.update('user/update/review', {
+      MovieId: movieId,
+      ReviewText: reviewText,
+      Rating: rating,
     });
   }
 
