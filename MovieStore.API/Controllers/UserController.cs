@@ -108,6 +108,16 @@ namespace MovieStore.API.Controllers
             var reviews = await _userService.GetUserReviewedMovies(id);
             return Ok(reviews);
         }
+
+        [HttpGet]
+        [Route("review/{movieId}")]
+        public async Task<IActionResult> IsReviewed([FromRoute] int movieId)
+        {
+            var userId = _currentUserService.Id ?? 0;
+            var review = await _userService.IsMovieReviewedByUser(userId, movieId);
+            if (review is null) return Ok();
+            return Ok(review);
+        }
         
         [HttpGet]
         [Route("{userId}/movie/{movieId}/favorite")]

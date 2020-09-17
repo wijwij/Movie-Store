@@ -17,7 +17,7 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<Purchase> PurchaseMovie(UserPurchaseRequestModel requestModel);
         Task<IEnumerable<Movie>> GetUserFavoriteMovies(int userId);
         Task<IEnumerable<UserReviewedMovieResponseModel>> GetUserReviewedMovies(int userId);
-        Task<bool> IsMovieReviewedByUser(int userId, int movieId);
+        Task<UserReviewedMovieResponseModel> IsMovieReviewedByUser(int userId, int movieId);
         Task<UserProfileResponseModel> GetUserProfile(int userId);
     }
 }

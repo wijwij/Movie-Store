@@ -160,9 +160,15 @@ namespace MovieStore.Infrastructure.Services
             return response;
         }
 
-        public async Task<bool> IsMovieReviewedByUser(int userId, int movieId)
+        public async Task<UserReviewedMovieResponseModel> IsMovieReviewedByUser(int userId, int movieId)
         {
-            return await _reviewRepository.GetExistsAsync(r => r.UserId == userId && r.MovieId == movieId);
+            var review = await _reviewRepository.IsReviewedByUserAsync(userId, movieId);
+            if (review is null) return null;
+            return new UserReviewedMovieResponseModel
+            {
+                ReviewText = review.ReviewText,
+                Rating = review.Rating
+            };
         }
 
         public async Task<UserProfileResponseModel> GetUserProfile(int userId)
