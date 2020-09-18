@@ -97,18 +97,8 @@ export class MovieDetailsComponent implements OnInit {
     // Fetch the review if it exists
     this.userService.getReview(this.movieId).subscribe(
       (res) => {
-        if (res) {
-          this.review = { ...res };
-          this.isReviewedBefore = true;
-        } else {
-          // ToDo Refactor duplicate logic
-          this.review = {
-            reviewText: '',
-            rating: 0,
-            movieId: this.movieId,
-            userId: 0,
-          };
-        }
+        this.review = { ...res };
+        this.isReviewedBefore = true;
       },
       () => {
         this.review = {

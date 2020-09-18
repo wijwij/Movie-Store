@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Movie } from 'src/app/shared/models/movie';
 import { Favorite } from 'src/app/shared/models/favorite';
@@ -53,7 +53,12 @@ export class UserService {
   }
 
   getReview(movieId: number): Observable<Review> {
-    return this.apiService.getOne('user/review', `${movieId}`, null);
+    return this.apiService.getOne('user/review', `${movieId}`, null).pipe(
+      map((res) => {
+        if (res) return res as Review;
+        else throwError(new Error('No data content'));
+      })
+    );
   }
 
   createReview(
