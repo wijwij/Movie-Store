@@ -30,7 +30,10 @@ import { PurchasesComponent } from './account/purchases/purchases.component';
 import { ProfileComponent } from './account/profile/profile.component';
 import { OverviewPipe } from './shared/pipes/overview.pipe';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatDividerModule } from '@angular/material/divider';
 
 // Decorators are like attribute in c#, @NgModule includes the metadata object
 @NgModule({
@@ -66,6 +69,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatSliderModule,
+    MatDividerModule,
   ],
   // Dependency injection
   providers: [

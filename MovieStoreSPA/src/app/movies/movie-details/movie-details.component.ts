@@ -17,6 +17,7 @@ export class MovieDetailsComponent implements OnInit {
   movie: Movie;
   isAuthenticated: boolean;
   review: Review;
+  isReviewedBefore: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,15 +33,6 @@ export class MovieDetailsComponent implements OnInit {
       this.movieId = +r.get('id');
       this.movieService.getMovieDetailById(this.movieId).subscribe((movie) => {
         this.movie = movie;
-      });
-
-      this.userService.getReview(this.movieId).subscribe((res) => {
-        if (res) {
-          this.review = { ...res };
-        } else {
-          this.review = null;
-        }
-        console.log(`current user's review status: ${this.review?.reviewText}`);
       });
     });
 
@@ -79,7 +71,6 @@ export class MovieDetailsComponent implements OnInit {
 
   purchaseMovie(movieId: number, price: number): void {
     if (!this.isAuthorizedAction()) return;
-    console.log(`should not hit this...`);
     this.userService.purchaseMovie(movieId, price).subscribe(
       () => {
         this.movie.isPurchasedByUser = !this.movie.isPurchasedByUser;
@@ -102,19 +93,57 @@ export class MovieDetailsComponent implements OnInit {
 
   openReview(content) {
     if (!this.isAuthorizedAction()) return;
+
+    // Fetch the review if it exists
+    this.userService.getReview(this.movieId).subscribe(
+      (res) => {
+        if (res) {
+          this.review = { ...res };
+          this.isReviewedBefore = true;
+        } else {
+          // ToDo Refactor duplicate logic
+          this.review = {
+            reviewText: '',
+            rating: 0,
+            movieId: this.movieId,
+            userId: 0,
+          };
+        }
+      },
+      () => {
+        this.review = {
+          reviewText: '',
+          rating: 0,
+          movieId: this.movieId,
+          userId: 0,
+        };
+      }
+    );
+
     this.modalService.open(content, {
-      size: 'sm',
+      size: 'lg',
       centered: true,
+      scrollable: true,
     });
   }
 
-  submitReview(reviewText: string, rating: number) {
-    if (this.review) {
-      console.log(`updating the review....`);
-      this.userService.updateReview(this.movieId, reviewText, rating);
+  submitReview() {
+    if (this.isReviewedBefore) {
+      // console.log(`updating the review....`);
+      this.userService
+        .updateReview(this.movieId, this.review.reviewText, this.review.rating)
+        .subscribe((res) => {
+          this.review = { ...res };
+          this.isReviewedBefore = true;
+        });
     } else {
-      console.log(`creating the review....`);
-      this.userService.createReview(this.movieId, reviewText, rating);
+      // console.log(`creating the review....`);
+      this.userService
+        .createReview(this.movieId, this.review.reviewText, this.review.rating)
+        .subscribe((res) => {
+          this.review = { ...res };
+          this.isReviewedBefore = true;
+        });
     }
   }
 }
