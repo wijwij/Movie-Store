@@ -26,7 +26,16 @@ export class MovieDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.review = {
+      reviewText: '',
+      rating: 0,
+      movieId: this.movieId,
+      userId: 0,
+    };
+    // The default value of isReviewedBefore is undefined
+    this.isReviewedBefore = false;
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((r) => {
@@ -95,25 +104,17 @@ export class MovieDetailsComponent implements OnInit {
     if (!this.isAuthorizedAction()) return;
 
     // Fetch the review if it exists
-    this.userService.getReview(this.movieId).subscribe(
-      (res) => {
+    this.userService.getReview(this.movieId).subscribe((res) => {
+      if (res) {
         this.review = { ...res };
         this.isReviewedBefore = true;
-      },
-      () => {
-        this.review = {
-          reviewText: '',
-          rating: 0,
-          movieId: this.movieId,
-          userId: 0,
-        };
       }
-    );
 
-    this.modalService.open(content, {
-      size: 'lg',
-      centered: true,
-      scrollable: true,
+      this.modalService.open(content, {
+        size: 'lg',
+        centered: true,
+        scrollable: true,
+      });
     });
   }
 

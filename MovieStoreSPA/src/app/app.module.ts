@@ -34,6 +34,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 // Decorators are like attribute in c#, @NgModule includes the metadata object
 @NgModule({
@@ -71,6 +73,8 @@ import { MatDividerModule } from '@angular/material/divider';
     BrowserAnimationsModule,
     MatSliderModule,
     MatDividerModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   // Dependency injection
   providers: [

@@ -3,35 +3,40 @@
   <div class="row bg-dark text-light">
     <!-- Movie Poster -->
     <div class="col-3 px-0">
-      <img [src]="movie.posterUrl" class="img-fluid" [alt]="movie.title" />
+      <img [src]="movie?.posterUrl" class="img-fluid" [alt]="movie?.title" />
     </div>
     <!-- Movie Overview -->
     <div class="col-6 card bg-dark text-light pt-3 mt-4 border-dark">
-      <h2 class="card-title">{{ movie.title }}</h2>
+      <h2 class="card-title">{{ movie?.title }}</h2>
       <h3 class="card-subtitle mb-2 text-muted">
-        <p>{{ movie.tagline }}</p>
+        <p>{{ movie?.tagline }}</p>
       </h3>
       <h4 class="card-subtitle mb-2 text-muted">
-        {{ movie.runTime }} m | {{ movie.createdDate | date: "mediumDate" }}
+        {{ movie?.runTime }} m | {{ movie?.createdDate | date: "mediumDate" }}
       </h4>
       <h4 class="card-subtitle mb-2 pt-2">
-        <span class="badge badge-warning">{{ movie.rating }} </span>
+        <span class="badge badge-warning"
+          >{{ movie?.rating | number: "1.0-3" }}
+        </span>
       </h4>
       <h4 class="card-subtitle mb-2 pt-2">
-        <span *ngFor="let genre of movie.genres" class="badge badge-light mr-1">
+        <span
+          *ngFor="let genre of movie?.genres"
+          class="badge badge-light mr-1"
+        >
           <a [routerLink]="['/movies/genres', genre.id]" class="text-secondary">
             {{ genre.name }}
           </a>
         </span>
       </h4>
-      <p class="card-body">{{ movie.overview | overview }}</p>
+      <p class="card-body">{{ movie?.overview | overview }}</p>
     </div>
 
     <!-- User Action Section -->
     <div class="col-3 pt-4 mt-5">
       <div class="row">
         <button
-          *ngIf="movie.isFavoriteByUser"
+          *ngIf="movie?.isFavoriteByUser"
           class="btn btn-outline-light mb-3"
           (click)="toggleFavorite(movie.id)"
         >
@@ -39,7 +44,7 @@
         </button>
 
         <button
-          *ngIf="!movie.isFavoriteByUser"
+          *ngIf="!movie?.isFavoriteByUser"
           class="btn btn-outline-light mb-3"
           (click)="toggleFavorite(movie.id)"
         >
@@ -50,7 +55,7 @@
       <!-- Review Modal -->
       <ng-template #reviewbox let-modal>
         <div class="modal-header">
-          <h4 class="modal-title">Leave a Review</h4>
+          <h2 class="modal-title">Leave a Review</h2>
           <button
             type="button"
             class="close"
@@ -64,21 +69,27 @@
         <div class="modal-body">
           <form (submit)="submitReview()" #reviewForm="ngForm">
             <div class="form-group">
-              <h4>Leave a Review</h4>
-              <textarea
-                type="text"
-                class="form-control"
-                placeholder="Ex. Best movie ever!!"
-                [(ngModel)]="review.reviewText"
-                name="reviewText"
-              ></textarea>
-              <small class="text-black-50">
-                Please leave a comment with a maximum of 280 characters.
-              </small>
+              <h4>Review</h4>
+              <mat-form-field appearance="outline" class="container-fluid">
+                <textarea
+                  matInput
+                  placeholder="Ex. Best movie ever!!"
+                  [(ngModel)]="review.reviewText"
+                  name="reviewText"
+                ></textarea>
+                <mat-hint
+                  >Please leave a comment with a maximum of 550
+                  characters.</mat-hint
+                >
+                <mat-hint align="end"
+                  >{{ review.reviewText?.length || 0 }}/550</mat-hint
+                >
+              </mat-form-field>
             </div>
-            <mat-divider></mat-divider>
+
             <div class="form-group">
               <h4>Rating: 0 - 10</h4>
+              <br />
               <mat-slider
                 min="0"
                 max="10"
@@ -86,6 +97,7 @@
                 name="rating"
                 [(ngModel)]="review.rating"
                 [thumbLabel]="true"
+                class="container-fluid"
               ></mat-slider>
             </div>
           </form>
@@ -135,19 +147,19 @@
       </div>
       <div class="row">
         <button
-          *ngIf="movie.isPurchasedByUser"
+          *ngIf="movie?.isPurchasedByUser"
           class="btn btn-block btn-outline-light"
         >
           <i class="fas fa-film"></i>&nbsp; WATCH
         </button>
 
         <button
-          *ngIf="!movie.isPurchasedByUser"
+          *ngIf="!movie?.isPurchasedByUser"
           (click)="purchaseMovie(movie.id, movie.price)"
           class="btn btn-block btn-outline-light"
         >
           <i class="fas fa-shopping-cart"></i>&nbsp; BUY &nbsp;
-          {{ movie.price | currency }}
+          {{ movie?.price | currency }}
         </button>
       </div>
     </div>
@@ -162,23 +174,23 @@
           <li class="list-group-item">
             <i class="far fa-calendar-alt"></i>&nbsp; Release Date &nbsp;
             <span class="badge badge-dark">
-              {{ movie.createdDate | date: "mediumDate" }}
+              {{ movie?.createdDate | date: "mediumDate" }}
             </span>
           </li>
           <li class="list-group-item">
             <i class="fas fa-hourglass-half"></i>&nbsp; Run Time &nbsp;
-            <span class="badge badge-dark"> {{ movie.runTime }} m </span>
+            <span class="badge badge-dark"> {{ movie?.runTime }} m </span>
           </li>
           <li class="list-group-item">
             <i class="fas fa-money-bill"></i>&nbsp; Box Office &nbsp;
             <span class="badge badge-dark">
-              {{ movie.revenue | currency }}
+              {{ movie?.revenue | currency }}
             </span>
           </li>
           <li class="list-group-item">
             <i class="fas fa-dollar-sign"></i>&nbsp; Budget &nbsp;
             <span class="badge badge-dark">
-              {{ movie.budget | currency }}
+              {{ movie?.budget | currency }}
             </span>
           </li>
         </ul>
@@ -192,7 +204,7 @@
 
         <ul class="list-group">
           <li
-            *ngFor="let cast of movie.casts"
+            *ngFor="let cast of movie?.casts"
             class="list-group list-group-horizontal"
           >
             <a class="list-group-item col-4">
