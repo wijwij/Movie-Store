@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
 using MovieStore.Infrastructure.Data;
@@ -59,6 +60,11 @@ namespace MovieStore.API
                 // customize authorisation policy
                 // options.AddPolicy("Admin", policyBuilder => policyBuilder.RequireClaim("Admin").RequireClaim("EmployeeNumber"));
             });
+
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo {Title = "MovieStore API", Version = "1.0", Description = "A documentation of MovieStore API."});
+            });
             
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
@@ -105,6 +111,12 @@ namespace MovieStore.API
 
             app.UseRouting();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "API");
+            });
+            
             app.UseAuthentication();
             app.UseAuthorization();
 
