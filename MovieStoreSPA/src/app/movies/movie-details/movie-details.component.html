@@ -78,11 +78,11 @@
                   name="reviewText"
                 ></textarea>
                 <mat-hint
-                  >Please leave a comment with a maximum of 550
+                  >Please leave a comment with a maximum of 280
                   characters.</mat-hint
                 >
                 <mat-hint align="end"
-                  >{{ review.reviewText?.length || 0 }}/550</mat-hint
+                  >{{ review.reviewText?.length || 0 }}/280</mat-hint
                 >
               </mat-form-field>
             </div>
@@ -116,6 +116,7 @@
             type="submit"
             class="btn btn-info"
             *ngIf="!isReviewedBefore"
+            [disabled]="review.reviewText.length > 280"
             (click)="submitReview(); modal.close('Close click')"
           >
             Submit
@@ -125,6 +126,7 @@
             type="submit"
             class="btn btn-info"
             *ngIf="isReviewedBefore"
+            [disabled]="review.reviewText.length > 280"
             (click)="submitReview(); modal.close('Close click')"
           >
             Update
