@@ -11,7 +11,7 @@ namespace MovieStore.Core.Models.Request
         public decimal Rating { get; set; }
         
         [Required]
-        [MaxLength(280)]
+        [MaxLength(550)]
         public string ReviewText { get; set; }
     }
 }
