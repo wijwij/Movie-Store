@@ -55,5 +55,13 @@ namespace MovieStore.API.Controllers
             var genres = await _movieGenreService.GetGenresByMovie(movieId);
             return Ok(genres);
         }
+
+        [HttpGet]
+        [Route("rating")]
+        public async Task<IActionResult> GetMoviesAboveRating([FromQuery] decimal rating)
+        {
+            var movies = await _movieService.GetMoviesAboveRating(rating);
+            return Ok(movies);
+        }
     }
 }

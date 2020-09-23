@@ -87,5 +87,11 @@ namespace MovieStore.Infrastructure.Services
         {
             return await _movieRepository.GetMoviesCount(title);
         }
+
+        public async Task<IEnumerable<RatedMovieCardResponseModel>> GetMoviesAboveRating(decimal rating)
+        {
+            var movies = await _movieRepository.GetMoviesAboveRatingAsync(rating);
+            return movies;
+        }
     }
 }

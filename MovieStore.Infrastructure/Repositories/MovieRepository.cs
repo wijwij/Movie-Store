@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using MovieStore.Core.Entities;
+using MovieStore.Core.Models.Response;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Infrastructure.Data;
 
@@ -62,6 +62,23 @@ namespace MovieStore.Infrastructure.Repositories
         public async Task<int> GetMoviesCount(string title)
         {
             return await _dbContext.Movies.Where(m => m.Title.Equals(title)).CountAsync();
+        }
+
+        public async Task<IEnumerable<RatedMovieCardResponseModel>> GetMoviesAboveRatingAsync(decimal rating)
+        {
+            var movies = await _dbContext.Reviews.Include(r => r.Movie)
+                .GroupBy(r => new {r.MovieId, r.Movie.Title, r.Movie.PosterUrl})
+                .Where(gr => gr.Average(r => r.Rating) > rating)
+                .Select(gr => new RatedMovieCardResponseModel
+                {
+                    MovieId = gr.Key.MovieId, Title = gr.Key.Title, PosterUrl = gr.Key.PosterUrl,
+                    Rating = gr.Average(r => r.Rating)
+                })
+                .OrderByDescending(rm => rm.Rating).ToListAsync();
+            return movies;
+
+            // return await _dbContext.Movies.FromSqlInterpolated($"EXEC dbo.GetMoviesAboveRating {rating}")
+            // .Select(m => new RatedMovieCardResponseModel{MovieId = m.Id,Title = m.Title, Rating = m.Rating, PosterUrl = m.PosterUrl}).ToListAsync();
         }
     }
 }

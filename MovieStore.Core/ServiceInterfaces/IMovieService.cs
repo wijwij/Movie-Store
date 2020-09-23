@@ -17,5 +17,6 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<Movie> CreateMovie(Movie movie);
         Task<Movie> UpdateMovie(Movie movie);
         Task<int> GetMoviesCount(string title = "");
+        Task<IEnumerable<RatedMovieCardResponseModel>> GetMoviesAboveRating(decimal rating);
     }
 }
