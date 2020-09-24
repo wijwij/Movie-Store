@@ -89,6 +89,7 @@ namespace MovieStore.Infrastructure.Data
                 modelBuilder.HasKey(mg => new {mg.GenreId, mg.MovieId});
                 modelBuilder.HasOne(mg => mg.Movie).WithMany(g => g.MovieGenres).HasForeignKey(mg => mg.MovieId);
                 modelBuilder.HasOne(mg => mg.Genre).WithMany(g => g.MovieGenres).HasForeignKey(mg => mg.GenreId);
+                modelBuilder.HasIndex(mg => mg.GenreId);
             });
 
             modelBuilder.Entity<Role>(modelBuilder =>
@@ -137,6 +138,7 @@ namespace MovieStore.Infrastructure.Data
                 modelBuilder.HasKey(mc => new {mc.CastId, mc.MovieId});
                 modelBuilder.HasOne(mc => mc.Cast).WithMany(c => c.MovieCasts).HasForeignKey(mc => mc.CastId);
                 modelBuilder.HasOne(mc => mc.Movie).WithMany(m => m.MovieCasts).HasForeignKey(mc => mc.MovieId);
+                modelBuilder.HasIndex(mc => mc.CastId);
             });
 
             modelBuilder.Entity<User>(modelBuilder =>
