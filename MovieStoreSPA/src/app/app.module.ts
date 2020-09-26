@@ -36,6 +36,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 
 // Decorators are like attribute in c#, @NgModule includes the metadata object
 @NgModule({
@@ -75,6 +76,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDividerModule,
     MatInputModule,
     MatFormFieldModule,
+    MatButtonModule,
   ],
   // Dependency injection
   providers: [
