@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using MovieStore.Core.Entities;
 using MovieStore.Core.Models.Response;
@@ -15,15 +14,17 @@ namespace MovieStore.Infrastructure.Services
         private readonly IMovieRepository _movieRepository;
         private readonly IFavoriteRepository _favoriteRepository;
         private readonly IPurchaseRepository _purchaseRepository;
+        private readonly IMovieCastRepository _movieCastRepository;
 
         /*
          * Constructor Injection, injecting MovieRepository instance
          */
-        public MovieService(IMovieRepository movieRepository, IFavoriteRepository favoriteRepository, IPurchaseRepository purchaseRepository)
+        public MovieService(IMovieRepository movieRepository, IFavoriteRepository favoriteRepository, IPurchaseRepository purchaseRepository, IMovieCastRepository movieCastRepository)
         {
             _movieRepository = movieRepository;
             _favoriteRepository = favoriteRepository;
             _purchaseRepository = purchaseRepository;
+            _movieCastRepository = movieCastRepository;
         }
 
         public async Task<IEnumerable<MovieCardResponseModel>> GetHighestGrossingMovies()
@@ -60,8 +61,14 @@ namespace MovieStore.Infrastructure.Services
                 Budget = movie.Budget,
                 Revenue = movie.Revenue,
                 Genres = movie.MovieGenres?.Select(mg => new GenreResponseModel{Id = mg.GenreId, Name = mg.Genre.Name}),
-                Casts = movie.MovieCasts?.Select(mc => new CastOverviewResponseModel{Id = mc.CastId, Name = mc.Cast.Name, Character = mc.Character, ProfilePath = mc.Cast.ProfilePath})
+                // Casts = movie.MovieCasts?.Select(mc => new CastOverviewResponseModel{Id = mc.CastId, Name = mc.Cast.Name, Character = mc.Character, ProfilePath = mc.Cast.ProfilePath})
             };
+
+            var casts = await _movieCastRepository.GetCastsByMovieIdAsync(movieId);
+            response.Casts = casts.Select(mc =>
+                new CastOverviewResponseModel
+                    {Id = mc.CastId, Name = mc.Cast.Name, Character = mc.Character, ProfilePath = mc.Cast.ProfilePath});
+            
             // Check if the user is login
             if (userId != null)
             {

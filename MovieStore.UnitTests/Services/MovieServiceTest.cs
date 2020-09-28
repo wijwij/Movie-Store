@@ -20,6 +20,7 @@ namespace MovieStore.UnitTests.Services
         private Mock<IMovieRepository> _mockMovieRepository;
         private Mock<IFavoriteRepository> _mockFavoriteRepository;
         private Mock<IPurchaseRepository> _mockPuchaseRepository;
+        private Mock<IMovieCastRepository> _mockMovieCastRepository;
         private List<Movie> _movies;
 
         [OneTimeSetUp]
@@ -59,6 +60,7 @@ namespace MovieStore.UnitTests.Services
             _mockMovieRepository = new Mock<IMovieRepository>();
             _mockFavoriteRepository = new Mock<IFavoriteRepository>();
             _mockPuchaseRepository = new Mock<IPurchaseRepository>();
+            _mockMovieCastRepository = new Mock<IMovieCastRepository>();
             
             _mockMovieRepository.Setup(m => m.GetHighestRevenueMovies()).ReturnsAsync(_movies);
             _mockMovieRepository.Setup(m => m.GetByIdAsync(It.IsAny<int>()))
@@ -82,7 +84,7 @@ namespace MovieStore.UnitTests.Services
         public async Task Test_GetHighestGrossingMovies_FromFakeData()
         {
             // arrange
-            _sut = new MovieService(_mockMovieRepository.Object, _mockFavoriteRepository.Object, _mockPuchaseRepository.Object);
+            _sut = new MovieService(_mockMovieRepository.Object, _mockFavoriteRepository.Object, _mockPuchaseRepository.Object, _mockMovieCastRepository.Object);
             // act
             var movies = await _sut.GetHighestGrossingMovies();
             // assert
@@ -94,7 +96,7 @@ namespace MovieStore.UnitTests.Services
         [Test]
         public async Task Test_MovieName_GetMovieById()
         {
-            _sut = new MovieService(_mockMovieRepository.Object, _mockFavoriteRepository.Object, _mockPuchaseRepository.Object);
+            _sut = new MovieService(_mockMovieRepository.Object, _mockFavoriteRepository.Object, _mockPuchaseRepository.Object, _mockMovieCastRepository.Object);
             var movie = await _sut.GetMovieById(10);
             Assert.AreEqual("The Dark Knight", movie.Title);
         }
@@ -102,7 +104,7 @@ namespace MovieStore.UnitTests.Services
         [Test]
         public async Task Test_Exception_GetMovieById()
         {
-            _sut = new MovieService(_mockMovieRepository.Object, _mockFavoriteRepository.Object, _mockPuchaseRepository.Object);
+            _sut = new MovieService(_mockMovieRepository.Object, _mockFavoriteRepository.Object, _mockPuchaseRepository.Object, _mockMovieCastRepository.Object);
             Assert.ThrowsAsync<InvalidOperationException>(async () => await _sut.GetMovieById(20));
         }
     }

@@ -28,7 +28,7 @@ namespace MovieStore.Infrastructure.Repositories
             
             // Approach Two
             var movie = await _dbContext.Movies.Include(m => m.MovieGenres).ThenInclude(mg => mg.Genre)
-                .Include(m => m.MovieCasts).ThenInclude(mc => mc.Cast).FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             // Explicitly loading
             if(movie != null) movie.Rating = await _dbContext.Entry(movie).Collection(m => m.Reviews).Query().AverageAsync(r => r.Rating);
             return movie;
