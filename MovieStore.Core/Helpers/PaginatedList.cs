@@ -24,7 +24,7 @@ namespace MovieStore.Core.Helpers
         public bool HasPreviousPage => PageIndex > 1;
         public bool HasNextPage => PageIndex < TotalPages;
 
-        public async static Task<PaginatedList<T>> GetPagedList(IQueryable<T> source, int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderQuery, Expression<Func<T, bool>> filter)
+        public static async Task<PaginatedList<T>> GetPagedList(IQueryable<T> source, int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderQuery, Expression<Func<T, bool>> filter)
         {
             if (filter != null) source = source.Where(filter);
             if (orderQuery != null) source = orderQuery(source);

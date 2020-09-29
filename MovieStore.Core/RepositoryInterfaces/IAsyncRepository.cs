@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using MovieStore.Core.Helpers;
 
 namespace MovieStore.Core.RepositoryInterfaces
 {
@@ -14,7 +16,7 @@ namespace MovieStore.Core.RepositoryInterfaces
          *   out-memory data resource (IQueryable) are passing Expression<Func<T, bool>>
          * Why?
          *   Because LINQ needs to convert it to sql expressions later
-         * ToDo [Follow-up Question: What's the translation process under the hood? How to check the converted SQL statements?]
+         * ToDo [Follow-up Question: What's the translation process under the hood? How to check the converted SQL statements?[solved]]
          *
          * EF provides normal sync method and async method
          * .NET 4.5, c# 5
@@ -28,6 +30,7 @@ namespace MovieStore.Core.RepositoryInterfaces
         Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter);
         Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null);
         Task<bool> GetExistsAsync(Expression<Func<T, bool>> filter = null);
+        Task<PaginatedList<T>> GetPagedResultAsync(int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderQuery = null, Expression<Func<T, bool>> filter = null);
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task<int> DeleteAsync(T entity);

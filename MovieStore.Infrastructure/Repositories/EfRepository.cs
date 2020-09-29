@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MovieStore.Core.Helpers;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Infrastructure.Data;
 
@@ -32,6 +33,11 @@ namespace MovieStore.Infrastructure.Repositories
         public virtual async Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter)
         {
             return await _dbContext.Set<T>().Where(filter).ToListAsync();
+        }
+
+        public async Task<PaginatedList<T>> GetPagedResultAsync(int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderQuery = null, Expression<Func<T, bool>> filter = null)
+        {
+            return await PaginatedList<T>.GetPagedList(_dbContext.Set<T>(), pageIndex, pageSize, orderQuery, filter);
         }
 
         public virtual async Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null)
