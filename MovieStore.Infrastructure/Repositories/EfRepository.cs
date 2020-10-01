@@ -35,9 +35,12 @@ namespace MovieStore.Infrastructure.Repositories
             return await _dbContext.Set<T>().Where(filter).ToListAsync();
         }
 
-        public async Task<PaginatedList<T>> GetPagedResultAsync(int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderQuery = null, Expression<Func<T, bool>> filter = null)
+        public virtual async Task<PagedResultSet<T>> GetPagedResultAsync(int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderQuery = null, Expression<Func<T, bool>> filter = null)
         {
-            return await PaginatedList<T>.GetPagedList(_dbContext.Set<T>(), pageIndex, pageSize, orderQuery, filter);
+            var pagedList =
+                await PaginatedList<T>.GetPagedList(_dbContext.Set<T>(), pageIndex, pageSize, orderQuery, filter);
+            var data = await pagedList.Query.ToListAsync();
+            return new PagedResultSet<T>{PageIndex = pagedList.PageIndex, TotalCount = pagedList.TotalCount, TotalPages = pagedList.TotalPages, PageSize = pagedList.PageSize, Data = data};
         }
 
         public virtual async Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null)

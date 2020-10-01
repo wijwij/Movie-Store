@@ -30,7 +30,7 @@ namespace MovieStore.Core.RepositoryInterfaces
         Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter);
         Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null);
         Task<bool> GetExistsAsync(Expression<Func<T, bool>> filter = null);
-        Task<PaginatedList<T>> GetPagedResultAsync(int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderQuery = null, Expression<Func<T, bool>> filter = null);
+        Task<PagedResultSet<T>> GetPagedResultAsync(int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderQuery = null, Expression<Func<T, bool>> filter = null);
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task<int> DeleteAsync(T entity);
