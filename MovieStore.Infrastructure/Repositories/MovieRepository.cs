@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Core.Entities;
+using MovieStore.Core.Helpers;
 using MovieStore.Core.Models.Response;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Infrastructure.Data;
@@ -79,6 +81,13 @@ namespace MovieStore.Infrastructure.Repositories
 
             // return await _dbContext.Movies.FromSqlInterpolated($"EXEC dbo.GetMoviesAboveRating {rating}")
             // .Select(m => new RatedMovieCardResponseModel{MovieId = m.Id,Title = m.Title, Rating = m.Rating, PosterUrl = m.PosterUrl}).ToListAsync();
+        }
+
+        public async Task<PagedResultSet<MovieCardResponseModel>> GetPaginatedMoviesBySearchTitle(int pageIndex, int pageSize, Func<IQueryable<Movie>, IOrderedQueryable<Movie>> orderQuery = null, Expression<Func<Movie, bool>> filter = null)
+        {
+            var pagedList =  await PaginatedList<Movie>.GetPagedList(_dbContext.Movies, pageIndex, pageSize, orderQuery, filter);
+            var data = await pagedList.Query.Select(m => new MovieCardResponseModel {Id = m.Id, Title = m.Title, PosterUrl = m.PosterUrl}).ToListAsync();
+            return new PagedResultSet<MovieCardResponseModel>{PageIndex = pagedList.PageIndex, PageSize = pagedList.PageSize, TotalPages = pagedList.TotalPages, TotalCount = pagedList.TotalCount, Data = data};
         }
     }
 }
