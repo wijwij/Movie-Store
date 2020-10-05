@@ -22,6 +22,14 @@ namespace MovieStore.API.Controllers
         }
 
         [HttpGet]
+        [Route("")]
+        public async Task<IActionResult> GetMovies([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 30, [FromQuery] string title = "", [FromQuery] string orderBy = "")
+        {
+            var movies = await _movieService.GetMoviesByPagination(pageIndex, pageSize, title, orderBy);
+            return Ok(movies);
+        }
+
+        [HttpGet]
         [Route("toprevenue")]
         public async Task<IActionResult> GetTopRevenueMovies()
         {
