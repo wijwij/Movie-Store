@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MovieStore.Core.Entities;
+using MovieStore.Core.Helpers;
 using MovieStore.Core.Models.Response;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
@@ -99,6 +101,14 @@ namespace MovieStore.Infrastructure.Services
         {
             var movies = await _movieRepository.GetMoviesAboveRatingAsync(rating);
             return movies;
+        }
+
+        public async Task<PagedResultSet<MovieCardResponseModel>> GetMoviesByPagination(int pageIndex = 1, int pageSize = 30, string title = "", string orderBy = "")
+        {
+            Expression<Func<Movie, bool>> filter = m => m.Title.Contains(title);
+            Func<IQueryable<Movie>, IOrderedQueryable<Movie>> order = m => m.OrderBy(movie => orderBy);
+            var pagedMovies = await _movieRepository.GetPaginatedMoviesBySearchTitle(pageIndex, pageSize, string.IsNullOrEmpty(orderBy) ? null : order, string.IsNullOrEmpty(title)? null : filter);
+            return pagedMovies;
         }
     }
 }

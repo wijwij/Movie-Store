@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MovieStore.Core.Entities;
+using MovieStore.Core.Helpers;
 using MovieStore.Core.Models.Response;
 
 namespace MovieStore.Core.ServiceInterfaces
@@ -18,5 +18,6 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<Movie> UpdateMovie(Movie movie);
         Task<int> GetMoviesCount(string title = "");
         Task<IEnumerable<RatedMovieCardResponseModel>> GetMoviesAboveRating(decimal rating);
+        Task<PagedResultSet<MovieCardResponseModel>> GetMoviesByPagination(int pageIndex = 1, int pageSize = 30, string title ="", string orderBy="");
     }
 }
