@@ -9,6 +9,7 @@ import { FavoritesComponent } from './account/favorites/favorites.component';
 import { PurchasesComponent } from './account/purchases/purchases.component';
 import { ProfileComponent } from './account/profile/profile.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { MovieSearchComponent } from './movies/movie-search/movie-search.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'movie/details/:id',
     component: MovieDetailsComponent,
+  },
+  {
+    path: 'movies',
+    component: MovieSearchComponent,
   },
   {
     path: 'movies/genres/:id',
