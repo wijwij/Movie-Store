@@ -1,9 +1,17 @@
 <div class="rounded">
   <div class="container-fluid light">
     <div class="row">
-      <div *ngFor="let movie of movies">
+      <div *ngFor="let movie of slicedMovies">
         <app-movie-card [movie]="movie"> </app-movie-card>
       </div>
     </div>
+
+    <mat-paginator
+      [length]="movies?.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
   </div>
 </div>

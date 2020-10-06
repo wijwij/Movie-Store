@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../shared/models/movie';
 import { MovieService } from 'src/app/core/services/movie.service';
 import { ActivatedRoute } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-movie-list',
@@ -11,10 +12,15 @@ import { ActivatedRoute } from '@angular/router';
 export class MovieListComponent implements OnInit {
   movies: Movie[];
   genreId: number;
+  slicedMovies: Movie[];
+  pageSize: number;
+
   constructor(
     private movieService: MovieService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.pageSize = 10;
+  }
 
   ngOnInit(): void {
     // Get genre id from URL though using ActivatedRoute object
@@ -24,9 +30,20 @@ export class MovieListComponent implements OnInit {
       // send request
       this.movieService.getMoviesByGenre(this.genreId).subscribe((movies) => {
         this.movies = movies;
-        // console.log(`${this.genreId}`);
-        // console.table(this.movies);
+        this.onPageChange({
+          pageIndex: 0,
+          pageSize: this.pageSize,
+          length: this.movies?.length,
+        });
       });
     });
+  }
+
+  onPageChange(event: PageEvent): void {
+    // console.log(event);
+    this.slicedMovies = this.movies.slice(
+      event.pageIndex * event.pageSize,
+      (event.pageIndex + 1) * event.pageSize
+    );
   }
 }
