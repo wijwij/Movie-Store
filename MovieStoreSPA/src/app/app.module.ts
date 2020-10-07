@@ -39,6 +39,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MovieSearchComponent } from './movies/movie-search/movie-search.component';
+import { MatListModule } from '@angular/material/list';
 
 // Decorators are like attribute in c#, @NgModule includes the metadata object
 @NgModule({
@@ -81,6 +82,7 @@ import { MovieSearchComponent } from './movies/movie-search/movie-search.compone
     MatFormFieldModule,
     MatButtonModule,
     MatPaginatorModule,
+    MatListModule,
   ],
   // Dependency injection
   providers: [

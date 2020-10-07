@@ -19,9 +19,17 @@ export class MovieService {
   getMovieDetailById(movieId: number): Observable<Movie> {
     return this.apiService.getOne(`movies/details`, `${movieId}`);
   }
-  getMoviesByTitle(title: string): Observable<PagedMovie> {
+  getMoviesByTitle(
+    title: string,
+    pageIndex?: number,
+    pageSize?: number
+  ): Observable<PagedMovie> {
     var query = new Map<string, string>();
+
     query = query.set('title', title);
+    if (pageIndex) query = query.set('pageIndex', `${pageIndex}`);
+    if (pageSize) query = query.set('pageSize', `${pageSize}`);
+
     return this.apiService.getOne('movies', null, query);
   }
 }
