@@ -54,24 +54,7 @@
         </a>
       </li>
     </ul>
-    <div class="form-inline my-2 my-lg-0">
-      <input
-        #query
-        class="form-control mr-sm-2"
-        type="search"
-        placeholder="Ex. Avatar"
-        aria-label="Search"
-      />
-      <button
-        mat-flat-button
-        color="primary"
-        class="my-2 my-sm-0"
-        [routerLink]="['movies']"
-        [queryParams]="{ title: query.value }"
-      >
-        Search
-      </button>
-    </div>
+    <app-search-box></app-search-box>
   </div>
 </nav>
 <!-- AJAX browser will have policy CORS -->

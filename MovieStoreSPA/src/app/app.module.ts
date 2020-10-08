@@ -28,6 +28,7 @@ import { MovieListComponent } from './movies/movie-list/movie-list.component';
 import { FavoritesComponent } from './account/favorites/favorites.component';
 import { PurchasesComponent } from './account/purchases/purchases.component';
 import { ProfileComponent } from './account/profile/profile.component';
+import { SearchBoxComponent } from './shared/components/search-box/search-box.component';
 import { OverviewPipe } from './shared/pipes/overview.pipe';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
@@ -59,6 +60,7 @@ import { MatListModule } from '@angular/material/list';
     ProfileComponent,
     OverviewPipe,
     MovieSearchComponent,
+    SearchBoxComponent,
   ],
   // Other NgModule you are using
   imports: [

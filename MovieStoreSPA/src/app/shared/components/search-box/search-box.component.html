@@ -1,0 +1,20 @@
+<div class="form-inline my-2 my-lg-0">
+  <input
+    #query
+    class="form-control mr-sm-2"
+    type="search"
+    placeholder="Search a movie..."
+    aria-label="Search"
+    [(ngModel)]="model"
+    [ngbTypeahead]="search"
+  />
+  <button
+    mat-flat-button
+    color="primary"
+    class="my-2 my-sm-0"
+    [routerLink]="['movies']"
+    [queryParams]="{ title: query.value }"
+  >
+    Search
+  </button>
+</div>
