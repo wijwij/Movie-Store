@@ -1,12 +1,18 @@
 <div class="form-inline my-2 my-lg-0">
+  <!-- Template for suggestions -->
+  <ng-template #rt let-r="result" let-t="term" class="alert alert-light">
+      <ngb-highlight [result]="r?.title" [term]="t"></ngb-highlight>
+  </ng-template>
   <input
     #query
     class="form-control mr-sm-2"
     type="search"
     placeholder="Search a movie..."
     aria-label="Search"
-    [(ngModel)]="model"
+    
     [ngbTypeahead]="search"
+    [resultTemplate]="rt"
+    (selectItem)="onSelect($event, query)"
   />
   <button
     mat-flat-button

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -8,7 +10,6 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { MovieService } from 'src/app/core/services/movie.service';
-import { Movie } from '../../models/movie';
 
 @Component({
   selector: 'app-search-box',
@@ -16,8 +17,8 @@ import { Movie } from '../../models/movie';
   styleUrls: ['./search-box.component.css'],
 })
 export class SearchBoxComponent implements OnInit {
-  public model: any;
-  constructor(private movieService: MovieService) {}
+  // public model: string;
+  constructor(private movieService: MovieService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -25,18 +26,20 @@ export class SearchBoxComponent implements OnInit {
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      switchMap((term) => {
+      switchMap((term: string) => {
         if (term.length < 2) return of([]);
-        console.log(`service is going to trigger: ${term}`);
-        return this.movieService.getMoviesByTitle(`${term}`).pipe(
+
+        return this.movieService.getMoviesByTitle(term).pipe(
           map((res) => {
-            console.log(`hit the service and get result back: ${res?.data}`);
-            console.table(res.data);
-            // Bug return an Observable of array for Typeahead to display the result
-            return res?.data.forEach((movie) => movie.title);
+            return res?.data;
           }),
           catchError(() => of([]))
         );
       })
     );
+
+  onSelect(event: NgbTypeaheadSelectItemEvent, query) {
+    event.preventDefault();
+    this.router.navigate(['/movie/details', event.item.id]).then(() => query.value="");
+  }
 }
