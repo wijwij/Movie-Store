@@ -20,6 +20,7 @@
     class="my-2 my-sm-0"
     [routerLink]="['movies']"
     [queryParams]="{ title: query.value }"
+    (click)="query.value=''"
   >
     Search
   </button>

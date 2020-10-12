@@ -17,7 +17,6 @@ import { MovieService } from 'src/app/core/services/movie.service';
   styleUrls: ['./search-box.component.css'],
 })
 export class SearchBoxComponent implements OnInit {
-  // public model: string;
   constructor(private movieService: MovieService, private router: Router) {}
 
   ngOnInit(): void {}
