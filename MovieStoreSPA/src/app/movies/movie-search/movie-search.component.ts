@@ -23,6 +23,7 @@ export class MovieSearchComponent implements OnInit {
     private movieService: MovieService
   ) {
     this.pageSize = 20;
+    this.hasResult = true;
   }
 
   ngOnInit(): void {
@@ -30,7 +31,7 @@ export class MovieSearchComponent implements OnInit {
       this.queryTitle = params.get('title');
       this.getPagedResult(this.queryTitle, this.pageSize).subscribe((res) => {
         this.isLoading = false;
-        if (res) {
+        if (res.data.length > 0) {
           this.pagedMovies = res;
           this.hasResult = true;
         } else this.hasResult = false;
@@ -46,7 +47,7 @@ export class MovieSearchComponent implements OnInit {
       event.pageIndex
     ).subscribe((res) => {
       this.isLoading = false;
-      if (res) {
+      if (res.data.length > 0) {
         this.pagedMovies = res;
         this.hasResult = true;
       } else this.hasResult = false;

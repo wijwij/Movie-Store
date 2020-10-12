@@ -1,20 +1,27 @@
 <div class="container-fluid col-8">
-  <p *ngIf="isLoading">Loading....</p>
-  <mat-nav-list>
-    <mat-list-item
-      *ngFor="let movie of pagedMovies?.data"
-      [routerLink]="['/movie/details', movie.id]"
+  <div class="container-fluid alert alert-light m-2">
+    <p *ngIf="isLoading">Loading....</p>
+    <p *ngIf="!hasResult"> No matched movies are found....</p>
+  </div>
+  
+  <!-- Paged Result -->
+  <div *ngIf="!isLoading && hasResult" class="container-fluid">
+    <mat-nav-list>
+      <mat-list-item
+        *ngFor="let movie of pagedMovies?.data"
+        [routerLink]="['/movie/details', movie.id]"
+      >
+        <img matListAvatar [src]="movie.posterUrl" alt="Ops.." />
+        <p matLine>{{ movie.title }}</p>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-paginator
+      [length]="pagedMovies?.totalCount"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      (page)="onPageChange($event)"
     >
-      <img matListAvatar [src]="movie.posterUrl" alt="Ops.." />
-      <p matLine>{{ movie.title }}</p>
-      <mat-divider></mat-divider>
-    </mat-list-item>
-  </mat-nav-list>
-  <mat-paginator
-    [length]="pagedMovies?.totalCount"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    (page)="onPageChange($event)"
-  >
-  </mat-paginator>
+    </mat-paginator>
+  </div>
 </div>
