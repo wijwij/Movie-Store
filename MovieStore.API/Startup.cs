@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MovieStore.API.Hubs;
 using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
 using MovieStore.Infrastructure.Data;
@@ -60,6 +61,8 @@ namespace MovieStore.API
                 // customize authorisation policy
                 // options.AddPolicy("Admin", policyBuilder => policyBuilder.RequireClaim("Admin").RequireClaim("EmployeeNumber"));
             });
+
+            services.AddSignalR();
 
             services.AddSwaggerGen(s =>
             {
@@ -122,7 +125,11 @@ namespace MovieStore.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("/notificationhub");
+            });
         }
     }
 }
