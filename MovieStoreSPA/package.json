@@ -24,6 +24,7 @@
     "@angular/router": "~10.0.5",
     "@auth0/angular-jwt": "^5.0.1",
     "@fortawesome/fontawesome-free": "^5.14.0",
+    "@microsoft/signalr": "^3.1.9",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "bootstrap": "^4.5.0",
     "rxjs": "~6.5.5",
