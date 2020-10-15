@@ -1,5 +1,11 @@
 <div>
-  <app-header></app-header>
+  <div class="container-fluid">
+    <app-header></app-header>
+  </div>
+  <div class="container-fluid mt-1">
+    <ngb-alert type="info" *ngIf="notification" (close)="close()"> {{notification}} </ngb-alert>
+  </div>
+  
   <div class="container-fluid align-content-center">
     <router-outlet></router-outlet>
   </div>
