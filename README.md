@@ -8,7 +8,7 @@ Note: This guide will focus on SPA and api services and more features are in pro
 
 ## Environment and Architecture
 
-### 💻 Tech Stack
+### 🖥 Tech Stack
 
 - _development environment_: .net core 3.1, Rider, Visual Studio Code
 - _framework_: ASP.NET Web API, EF core, Angular 8, Nunit, moq, Boostrap
@@ -22,8 +22,36 @@ The backend is a typical **N-layer architecture**. **Dependency injection patter
 
 ## How to get started..
 
-### Learn
+### Learn Full Stack Techniques
+
+If you use this repository as a reference book to learn web developement using .NET technologies, I highly recommend you to follow all the issues (opened and closed) because it will show you how the whole development processes look like and what the challenges/requirements and what the actions I took. Personally, I would like to look at the commits that mentioned a specific issue to quickly remind myself how I solve the problem.
+
+Hope the explanation of the file structure will help you find what you want:
+
+```shell
+.
+├── LICENSE
+├── MovieStore.API              # API layer, middleware/filters
+├── MovieStore.Core             # abstraction (interface) of the code base, entity, model
+├── MovieStore.Infrastructure   # implementation of abstraction
+├── MovieStore.MVC              # controller and view of MVC pattern
+├── MovieStore.UnitTests        # NUnit testing
+├── MovieStore.sln
+├── MovieStore.sln.DotSettings.user
+├── MovieStoreSPA               # client side SPA
+└── README.md
+```
+
+#### Tech Blogs
 
 ### Run locally
 
-### Website (down)
+📅 [in progress] Will containerize the application using Docker and publish to the Docker hub (the database is available in the Azure SQL server).
+
+### Public Website (currently down)
+
+📅 [in progress]
+
+### Extend on it...
+
+If you are interested in this project and want to build it by yourself, please feel free to reach out to me for the database scripts.
