@@ -50,7 +50,6 @@ namespace MovieStore.API.Helpers
             _logger.LogInformation("--------END OF LOGGING----------");
 
             httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-            httpContext.Response.Redirect("/Home/Error");
             await Task.CompletedTask;
         }
     }
