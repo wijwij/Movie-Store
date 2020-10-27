@@ -105,6 +105,11 @@ namespace MovieStore.API
                 // app.UseDeveloperExceptionPage();
                 app.UseMovieStoreExceptionMiddleware();
             }
+            else
+            {
+                // handle exception in prod/stage environment
+                app.UseExceptionHandler("/Error");
+            }
 
             // Allow cross-origin request
             app.UseCors(builder =>
