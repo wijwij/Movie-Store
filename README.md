@@ -46,7 +46,7 @@ Hope the explanation of the file structure will help you find what you want:
 
 ### Run locally
 
-📅 [in progress] Will containerize the application using Docker and publish to the Docker hub (the database is available in the Azure SQL server).
+📅 [in progress [Issue #56](https://github.com/SiqiWang666/Movie-Store/issues/56)] Will containerize the application using Docker and publish to the Docker hub (the database is available in the Azure SQL server).
 
 ### Public Website (currently down)
 
