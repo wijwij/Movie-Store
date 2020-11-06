@@ -18,7 +18,7 @@ Note: This guide will focus on SPA and api services and more features are in pro
 
 ### Architecutre
 
-The backend is a typical **N-layer architecture**. **Dependency injection pattern** is used throughout the project. The frontend is a single page architecture organized using feature folders. Frontend communicates with backend using RESTful api.
+The backend is a typical **N-layer architecture**. **Dependency injection pattern** is used throughout the project. The frontend is a single page architecture organized using feature folders. Frontend communicates with backend using RESTful API.
 
 ## How to get started..
 
@@ -42,7 +42,11 @@ Hope the explanation of the file structure will help you find what you want:
 └── README.md
 ```
 
-#### Tech Blogs
+#### Related Tech Blogs
+
+- ASP.NET Core Middleware Pipeline [By Steve Gordon🔗](https://www.stevejgordon.co.uk/how-is-the-asp-net-core-middleware-pipeline-built)
+- Authorization Policy [By Andrew Lock🔗](https://andrewlock.net/custom-authorisation-policies-and-requirements-in-asp-net-core/)
+- ASP.NET Core Web App Bootup Process [By me🔗](https://siqiwang666.github.io/asp.net%20core%203.1/2020/07/ASP.NET/)
 
 ### Run locally
 
