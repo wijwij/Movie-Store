@@ -58,4 +58,18 @@ Hope the explanation of the file structure will help you find what you want:
 
 ### Extend on it...
 
+#### Local Database
+
 If you are interested in this project and want to build it by yourself, please feel free to reach out to me for the database scripts.
+
+#### User Secrets
+
+I am using .NET Secret Manager to manage local development secrets. Set up via CLI:
+
+```
+dotnet user-secrets set "TokenSettings:PrivateKey" "YourValue"
+dotnet user-secrets set "TokenSettings:Issuer" "YourValue"
+dotnet user-secrets set "TokenSettings:ExpirationHours" "YourValue"
+dotnet user-secrets set "ConnectionStrings:MovieStoreDbConnection" "YourValue"
+dotnet user-secrets set "clientSPAUrl" "YourValue"
+```
